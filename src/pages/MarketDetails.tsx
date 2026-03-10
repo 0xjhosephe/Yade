@@ -85,10 +85,10 @@ export default function MarketDetails() {
             setLiveSeries(null);
 
             const [metrics, series, creators, posts] = await Promise.all([
-                getTopicMetrics(query),
-                getTopicTimeSeries(query),
-                getTopicCreators(query),
-                getTopicPosts(query)
+                getTopicMetrics(query, userAddress),
+                getTopicTimeSeries(query, userAddress),
+                getTopicCreators(query, userAddress),
+                getTopicPosts(query, userAddress)
             ]);
 
             if (isMounted) {

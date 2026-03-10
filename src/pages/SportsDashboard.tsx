@@ -116,7 +116,7 @@ export default function SportsDashboard() {
                 setContests(events);
             } else {
                 const allPromises = leagues.map(async (league) => {
-                    const events = await fetchUpcomingEvents(league.sport, league.league, 7);
+                    const events = await fetchUpcomingEvents(league.sport, league.league, 7, userAddress);
 
                     if (events.length === 0 && ['mma', 'tennis', 'golf'].includes(league.sport)) {
                         return fetchMockSportsEvents(league.sport);
@@ -188,7 +188,7 @@ export default function SportsDashboard() {
                 const events = await fetchOpenF1Events();
                 setContests(events);
             } else {
-                const events = await fetchUpcomingEvents(league.sport, league.league, 7);
+                const events = await fetchUpcomingEvents(league.sport, league.league, 7, userAddress);
 
                 if (events.length === 0 && ['mma', 'tennis', 'golf'].includes(league.sport)) {
                     const mockEvents = await fetchMockSportsEvents(league.sport);

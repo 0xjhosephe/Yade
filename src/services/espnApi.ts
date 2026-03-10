@@ -193,7 +193,8 @@ function parseEvent(event: any, sport: string, league: string): ESPNEvent | null
 export async function fetchUpcomingEvents(
     sport: string,
     league: string,
-    daysAhead: number = 7
+    daysAhead: number = 7,
+    userAddress?: string | null
 ): Promise<ESPNEvent[]> {
     const events: ESPNEvent[] = [];
     const today = new Date();
@@ -206,7 +207,7 @@ export async function fetchUpcomingEvents(
     try {
         const url = `${SITE_API}/${sport}/${league}/scoreboard?dates=${dateRange}&limit=100`;
         const getEspnData = httpsCallable(functions, 'getEspnData');
-        const response = await getEspnData({ url });
+        const response = await getEspnData({ url, userAddress });
 
         const data = response.data as any;
         const rawEvents = data.events || [];
@@ -233,12 +234,13 @@ export async function fetchUpcomingEvents(
 export async function fetchEventSummary(
     sport: string,
     league: string,
-    eventId: string
+    eventId: string,
+    userAddress?: string | null
 ): Promise<{ status: string; homeScore: string; awayScore: string; winner: string | null } | null> {
     try {
         const url = `${SITE_API}/${sport}/${league}/summary?event=${eventId}`;
         const getEspnData = httpsCallable(functions, 'getEspnData');
-        const response = await getEspnData({ url });
+        const response = await getEspnData({ url, userAddress });
 
         const data = response.data as any;
         const header = data.header;
@@ -285,12 +287,13 @@ export async function fetchEventSummary(
  */
 export async function fetchSportsNews(
     league: string,
-    limit: number = 5
+    limit: number = 5,
+    userAddress?: string | null
 ): Promise<ESPNNewsArticle[]> {
     try {
         const url = `${NOW_API}?leagues=${league}&limit=${limit}`;
         const getEspnData = httpsCallable(functions, 'getEspnData');
-        const response = await getEspnData({ url });
+        const response = await getEspnData({ url, userAddress });
 
         const data = response.data as any;
         const articles = data.headlines || data.articles || data.feed || [];

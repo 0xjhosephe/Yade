@@ -2,10 +2,10 @@ import { httpsCallable } from 'firebase/functions';
 import { functions } from './firebase';
 import type { SeriesPoint, Creator, Post, Metric } from '../types';
 
-async function fetchWithAuth(endpoint: string) {
+async function fetchWithAuth(endpoint: string, userAddress?: string | null) {
     try {
         const getLunarCrushData = httpsCallable(functions, 'getLunarCrushData');
-        const response = await getLunarCrushData({ endpoint });
+        const response = await getLunarCrushData({ endpoint, userAddress });
 
         // Firebase callables return data in the `.data` property
         return response.data as any;
@@ -24,8 +24,8 @@ function formatNumber(num: number): string {
 /**
  * Fetches basic summary metrics for a given topic
  */
-export async function getTopicMetrics(topicName: string): Promise<Metric[]> {
-    const data = await fetchWithAuth(`/topic/${topicName}/v1`);
+export async function getTopicMetrics(topicName: string, userAddress?: string | null): Promise<Metric[]> {
+    const data = await fetchWithAuth(`/topic/${topicName}/v1`, userAddress);
     if (!data) return [];
 
     return [
@@ -61,8 +61,8 @@ export async function getTopicMetrics(topicName: string): Promise<Metric[]> {
  * In a fully paid tier we would hit /topic/{topic}/time-series/v1. Here we synthesize a realistic curve
  * using the aggregate base values to align with the visual charts.
  */
-export async function getTopicTimeSeries(topicName: string): Promise<SeriesPoint[]> {
-    const data = await fetchWithAuth(`/topic/${topicName}/v1`);
+export async function getTopicTimeSeries(topicName: string, userAddress?: string | null): Promise<SeriesPoint[]> {
+    const data = await fetchWithAuth(`/topic/${topicName}/v1`, userAddress);
 
     // Fallback static structure if API fails
     const baseInteractions = data?.interactions_24h ? (data.interactions_24h / 24) : 50000;
@@ -84,8 +84,8 @@ export async function getTopicTimeSeries(topicName: string): Promise<SeriesPoint
 /**
  * Fetches actual posts related to the topic
  */
-export async function getTopicPosts(topicName: string): Promise<Post[]> {
-    const data = await fetchWithAuth(`/topic/${topicName}/posts/v1`);
+export async function getTopicPosts(topicName: string, userAddress?: string | null): Promise<Post[]> {
+    const data = await fetchWithAuth(`/topic/${topicName}/posts/v1`, userAddress);
     if (!data || !Array.isArray(data)) return [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -107,8 +107,8 @@ export async function getTopicPosts(topicName: string): Promise<Post[]> {
 /**
  * Fetches top creators for a given topic
  */
-export async function getTopicCreators(topicName: string): Promise<Creator[]> {
-    const data = await fetchWithAuth(`/topic/${topicName}/creators/v1`);
+export async function getTopicCreators(topicName: string, userAddress?: string | null): Promise<Creator[]> {
+    const data = await fetchWithAuth(`/topic/${topicName}/creators/v1`, userAddress);
     if (!data || !Array.isArray(data)) return [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

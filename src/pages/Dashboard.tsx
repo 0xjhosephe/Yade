@@ -147,9 +147,9 @@ export default function Dashboard() {
             setLiveContests(null);
 
             const [series, creators, posts] = await Promise.all([
-                getTopicTimeSeries(query),
-                getTopicCreators(query),
-                getTopicPosts(query)
+                getTopicTimeSeries(query, userAddress),
+                getTopicCreators(query, userAddress),
+                getTopicPosts(query, userAddress)
             ]);
 
             if (isMounted) {
@@ -184,7 +184,7 @@ export default function Dashboard() {
 
             for (const cat of categoriesToFetch) {
                 const query = cat === 'cryptocurrencies' ? 'bitcoin' : cat === 'premier league' ? 'football' : cat;
-                const freshCreators = await getTopicCreators(query);
+                const freshCreators = await getTopicCreators(query, userAddress);
 
                 setCustomContests(prevContests => {
                     const newStats = prevContests.map(contest => {
