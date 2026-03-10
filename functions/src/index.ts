@@ -148,3 +148,40 @@ export const getEspnData = onCall(async (request: CallableRequest<any>) => {
         throw new HttpsError("internal", error.message || "Unknown error occurred");
     }
 });
+
+/**
+ * Get global mock data visibility status from Firestore
+ */
+export const getGlobalMockStatus = onCall(async () => {
+    try {
+        const doc = await db.collection("settings").doc("global").get();
+        if (!doc.exists) return { showMockData: false };
+        return doc.data();
+    } catch (error) {
+        console.error("Error reading global settings:", error);
+        return { showMockData: false };
+    }
+});
+
+/**
+ * Set global mock data visibility status (Admin only)
+ */
+export const setGlobalMockStatus = onCall(async (request: CallableRequest<any>) => {
+    const { showMockData, userAddress } = request.data;
+
+    if (!userAddress || userAddress.toUpperCase() !== ADMIN_WALLET.toUpperCase()) {
+        throw new HttpsError("permission-denied", "Only admin can change global settings");
+    }
+
+    try {
+        await db.collection("settings").doc("global").set({
+            showMockData: !!showMockData,
+            updatedBy: userAddress,
+            timestamp: Date.now()
+        });
+        return { success: true };
+    } catch (error: any) {
+        console.error("Error updating global settings:", error);
+        throw new HttpsError("internal", error.message || "Failed to update settings");
+    }
+});

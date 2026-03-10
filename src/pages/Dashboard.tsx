@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { connect, disconnect, isConnected, getLocalStorage } from '@stacks/connect';
+import { generateMockMarkets, generateMockContests, isAdmin } from '../services/mockDataGenerator';
 import { topics } from '../mocks/topics';
 import { featuredBets } from '../mocks/apiResponses';
 import type { TopicId, Topic, BetMarket, MarketOption, Contest, SeriesPoint, LunarCrushCategory } from '../types';
@@ -12,7 +13,7 @@ import BettingCard from '../components/BettingCard';
 import ContestCard from '../components/ContestCard';
 import SidebarList from '../components/SidebarList';
 import BetModal from '../components/BetModal';
-import { fetchCategories } from '../services/api';
+import { fetchCategories, getGlobalMockStatus, setGlobalMockStatus } from '../services/api';
 import { UNIFIED_SPORT_CATEGORIES } from '../services/espnApi';
 import { getTopicTimeSeries, getTopicCreators, getTopicPosts, generateDynamicBets } from '../services/lunarcrush';
 
@@ -44,6 +45,19 @@ export default function Dashboard() {
         }
         return null;
     });
+
+    const [showMockData, setShowMockData] = useState(false);
+
+    useEffect(() => {
+        const fetchGlobalStatus = async () => {
+            const status = await getGlobalMockStatus();
+            setShowMockData(status);
+        };
+        fetchGlobalStatus();
+        // Optional: Polling every 30s to stay in sync
+        const interval = setInterval(fetchGlobalStatus, 30000);
+        return () => clearInterval(interval);
+    }, []);
 
     const [initialDateForClosesAt] = useState(() => Date.now() + 86400000);
 
@@ -155,12 +169,12 @@ export default function Dashboard() {
             if (isMounted) {
                 const activeSeries = series && series.length > 0 ? series : null;
                 const generated = generateDynamicBets(query, creators || [], posts || []);
-                const activeMarkets = generated.markets.length > 0 ? generated.markets : null;
-                const activeContests = generated.contests.length > 0 ? generated.contests : null;
+                const activeMarkets = generated.markets;
+                const activeContests = generated.contests;
 
                 setLiveSeries(activeSeries);
-                setLiveMarkets(activeMarkets);
-                setLiveContests(activeContests);
+                setLiveMarkets(activeMarkets.length > 0 ? activeMarkets : null);
+                setLiveContests(activeContests.length > 0 ? activeContests : null);
 
                 setLiveDataCache(prev => ({
                     ...prev,
@@ -171,7 +185,7 @@ export default function Dashboard() {
 
         fetchLive();
         return () => { isMounted = false; };
-    }, [selectedTopicId, categories, liveDataCache]);
+    }, [selectedTopicId, categories, liveDataCache, userAddress, showMockData]);
 
     // Background syncing for user-generated custom contests
     useEffect(() => {
@@ -188,6 +202,10 @@ export default function Dashboard() {
 
                 setCustomContests(prevContests => {
                     const newStats = prevContests.map(contest => {
+                        if (contest.category === cat) {
+                            const { markets, contests: generatedContests } = generateDynamicBets(query, freshCreators, []);
+                            return { ...contest, markets: markets, contests: generatedContests };
+                        }
                         if (contest.status !== 'active' || contest.category !== cat) return contest;
 
                         const updatedContenders = contest.contenders.map(contender => {
@@ -276,8 +294,26 @@ export default function Dashboard() {
         return mappedId === selectedTopicId;
     })?.category || selectedTopicId);
 
-    const activeMarkets = liveMarkets || liveDataCache[query]?.markets || topic.mockMarkets;
-    const activeContests = liveContests || liveDataCache[query]?.contests || topic.mockContests;
+    const displayedMarkets = useMemo(() => {
+        const rawMarkets = liveMarkets || liveDataCache[query]?.markets || topic.mockMarkets;
+        if (showMockData && selectedTopicId) {
+            const cleanRaw = rawMarkets.filter(m => !m.id.startsWith('mock-'));
+            return [...cleanRaw, ...generateMockMarkets(selectedTopicId, 8)];
+        }
+        return rawMarkets;
+    }, [liveMarkets, liveDataCache, query, topic.mockMarkets, showMockData, selectedTopicId]);
+
+    const displayedContests = useMemo(() => {
+        const rawContests = liveContests || liveDataCache[query]?.contests || topic.mockContests;
+        if (showMockData && selectedTopicId) {
+            const cleanRaw = rawContests.filter(c => !c.id.startsWith('mock-'));
+            return [...cleanRaw, ...generateMockContests(selectedTopicId, 4)];
+        }
+        return rawContests;
+    }, [liveContests, liveDataCache, query, topic.mockContests, showMockData, selectedTopicId]);
+
+    const activeMarkets = displayedMarkets;
+    const activeContests = displayedContests;
     const activeSeries = liveSeries || liveDataCache[query]?.series || null;
 
     const [carouselIndex, setCarouselIndex] = useState(0);
@@ -301,13 +337,13 @@ export default function Dashboard() {
     let featuredThemeColor = 'bg-accent';
     if (isSelected) {
         const isYesNo = featuredMarket.options.length === 2 &&
-            featuredMarket.options.every((o) => o.label === 'Yes' || o.label === 'No');
+            featuredMarket.options.every((o: MarketOption) => o.label === 'Yes' || o.label === 'No');
 
         if (isYesNo) {
             featuredThemeColor = globalSelection?.option === 'Yes' ? 'bg-yes' : 'bg-no';
         } else {
-            const opt = featuredMarket.options.find(o => o.label === globalSelection?.option);
-            if (opt && opt.odds === Math.max(...featuredMarket.options.map(o => o.odds))) {
+            const opt = featuredMarket.options.find((o: MarketOption) => o.label === globalSelection?.option);
+            if (opt && opt.odds === Math.max(...featuredMarket.options.map((o: MarketOption) => o.odds))) {
                 featuredThemeColor = 'bg-yes';
             }
         }
@@ -695,7 +731,7 @@ export default function Dashboard() {
                                         topicId={topic.id}
                                         selectedOption={globalSelection?.id === market.id ? globalSelection?.option : null}
                                         onSelectOption={(optionLabel) => setGlobalSelection(optionLabel ? { id: market.id, option: optionLabel } : null)}
-                                        onBet={(m, o) => {
+                                        onBet={(m: BetMarket, o: string) => {
                                             setSelectedBetOption({ market: m, optionLabel: o });
                                             setIsBetModalOpen(true);
                                             setGlobalSelection(null);
@@ -734,6 +770,21 @@ export default function Dashboard() {
                 <p className="text-xs font-medium text-text-muted">
                     YADE © {new Date().getFullYear()} · LunarCrush V4 Live Data Connected
                 </p>
+
+                {isAdmin(userAddress) && (
+                    <button
+                        onClick={async () => {
+                            const newValue = !showMockData;
+                            setShowMockData(newValue);
+                            if (userAddress) {
+                                await setGlobalMockStatus(newValue, userAddress);
+                            }
+                        }}
+                        className="mt-6 px-4 py-2 text-[10px] font-bold tracking-widest uppercase border border-border-subtle rounded hover:bg-bg-card transition-colors text-text-muted"
+                    >
+                        {showMockData ? 'Hide Global Mocks' : 'Show Global Mocks'}
+                    </button>
+                )}
             </footer>
 
             <BetModal

@@ -11,6 +11,7 @@ import MetricCard from '../components/MetricCard';
 
 import Header from '../components/Header';
 import { connect, disconnect, isConnected, getLocalStorage } from '@stacks/connect';
+import { generateMockMarkets } from '../services/mockDataGenerator';
 
 export default function MarketDetails() {
     const { topicId, marketId } = useParams();
@@ -105,7 +106,8 @@ export default function MarketDetails() {
 
     // Provide a fallback market if the user navigated directly to a URL and the market wasn't found in mocks
     // Since markets are now dynamic, the ID might not exist in topics.mockMarkets anymore!
-    const effectiveMarket = market || (liveCreators && livePosts ? generateDynamicBets(topicId || 'bitcoin', liveCreators, livePosts).markets.find(m => m.id === marketId) || generateDynamicBets(topicId || 'bitcoin', liveCreators, livePosts).markets[0] : topic.mockMarkets[0]);
+    const mockMarket = marketId?.startsWith('mock-') ? generateMockMarkets(topicId || 'bitcoin', 10).find(m => m.id === marketId) : null;
+    const effectiveMarket = market || mockMarket || (liveCreators && livePosts ? generateDynamicBets(topicId || 'bitcoin', liveCreators, livePosts).markets.find(m => m.id === marketId) || generateDynamicBets(topicId || 'bitcoin', liveCreators, livePosts).markets[0] : topic.mockMarkets[0]);
 
     if (!topic || !effectiveMarket) {
         return (

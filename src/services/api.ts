@@ -30,3 +30,25 @@ export async function fetchCategories(userAddress?: string | null): Promise<Luna
         return lunarCrushCategories;
     }
 }
+
+export async function getGlobalMockStatus(): Promise<boolean> {
+    try {
+        const getStatus = httpsCallable(functions, 'getGlobalMockStatus');
+        const response = await getStatus();
+        return (response.data as any)?.showMockData || false;
+    } catch (error) {
+        console.error('Error getting global mock status:', error);
+        return false;
+    }
+}
+
+export async function setGlobalMockStatus(showMockData: boolean, userAddress: string): Promise<boolean> {
+    try {
+        const setStatus = httpsCallable(functions, 'setGlobalMockStatus');
+        const response = await setStatus({ showMockData, userAddress });
+        return (response.data as any)?.success || false;
+    } catch (error) {
+        console.error('Error setting global mock status:', error);
+        return false;
+    }
+}

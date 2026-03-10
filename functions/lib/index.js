@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEspnData = exports.getLunarCrushData = void 0;
+exports.setGlobalMockStatus = exports.getGlobalMockStatus = exports.getEspnData = exports.getLunarCrushData = void 0;
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const node_fetch_1 = __importDefault(require("node-fetch"));
@@ -162,6 +162,42 @@ exports.getEspnData = (0, https_1.onCall)(async (request) => {
     catch (error) {
         console.error(`[ESPN] Error fetching ${url}:`, error);
         throw new https_1.HttpsError("internal", error.message || "Unknown error occurred");
+    }
+});
+/**
+ * Get global mock data visibility status from Firestore
+ */
+exports.getGlobalMockStatus = (0, https_1.onCall)(async () => {
+    try {
+        const doc = await db.collection("settings").doc("global").get();
+        if (!doc.exists)
+            return { showMockData: false };
+        return doc.data();
+    }
+    catch (error) {
+        console.error("Error reading global settings:", error);
+        return { showMockData: false };
+    }
+});
+/**
+ * Set global mock data visibility status (Admin only)
+ */
+exports.setGlobalMockStatus = (0, https_1.onCall)(async (request) => {
+    const { showMockData, userAddress } = request.data;
+    if (!userAddress || userAddress.toUpperCase() !== ADMIN_WALLET.toUpperCase()) {
+        throw new https_1.HttpsError("permission-denied", "Only admin can change global settings");
+    }
+    try {
+        await db.collection("settings").doc("global").set({
+            showMockData: !!showMockData,
+            updatedBy: userAddress,
+            timestamp: Date.now()
+        });
+        return { success: true };
+    }
+    catch (error) {
+        console.error("Error updating global settings:", error);
+        throw new https_1.HttpsError("internal", error.message || "Failed to update settings");
     }
 });
 //# sourceMappingURL=index.js.map

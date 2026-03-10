@@ -6,6 +6,7 @@ import MarketDetailView from '../components/MarketDetailView';
 import ContestCard from '../components/ContestCard';
 import Icon from '../components/Icon';
 import { connect, disconnect, isConnected, getLocalStorage } from '@stacks/connect';
+import { generateMockMarkets, generateMockContests, isAdmin } from '../services/mockDataGenerator';
 import {
     fetchUpcomingEvents,
     espnEventToContest,
@@ -16,7 +17,7 @@ import { fetchOpenF1Events } from '../services/openF1Api';
 import { fetchMockSportsEvents } from '../services/mockSportsApi';
 import { topics } from '../mocks/topics';
 import BettingCard from '../components/BettingCard';
-import { fetchCategories } from '../services/api';
+import { fetchCategories, getGlobalMockStatus, setGlobalMockStatus } from '../services/api';
 import type {
     ESPNLeagueConfig,
     BetMarket,
@@ -43,6 +44,18 @@ export default function SportsDashboard() {
         }
         return null;
     });
+
+    const [showMockData, setShowMockData] = useState(false);
+
+    useEffect(() => {
+        const fetchGlobalStatus = async () => {
+            const status = await getGlobalMockStatus();
+            setShowMockData(status);
+        };
+        fetchGlobalStatus();
+        const interval = setInterval(fetchGlobalStatus, 30000);
+        return () => clearInterval(interval);
+    }, []);
 
     // ─── Categories & Sports ───
     const [categories, setCategories] = useState<LunarCrushCategory[]>([]);
@@ -116,12 +129,11 @@ export default function SportsDashboard() {
                 setContests(events);
             } else {
                 const allPromises = leagues.map(async (league) => {
-                    const events = await fetchUpcomingEvents(league.sport, league.league, 7, userAddress);
+                    let events = await fetchUpcomingEvents(league.sport, league.league, 7, userAddress);
 
                     if (events.length === 0 && ['mma', 'tennis', 'golf'].includes(league.sport)) {
                         return fetchMockSportsEvents(league.sport);
                     }
-
                     return events
                         .filter(e => e.status === 'pre')
                         .map(e => espnEventToContest(e, league));
@@ -307,8 +319,17 @@ export default function SportsDashboard() {
     // ─── Social Data ───
     const mappedTopicId = selectedSport === 'formula 1' ? 'f1' : selectedSport === 'premier league' ? 'football' : selectedSport;
     const socialTopic = topics.find(t => t.id === mappedTopicId || t.label.toLowerCase() === selectedSport?.toLowerCase());
-    const socialContests = socialTopic ? socialTopic.mockContests : [];
-    const socialMarkets = socialTopic ? socialTopic.mockMarkets : [];
+
+    let socialContests = socialTopic ? socialTopic.mockContests : [];
+    let socialMarkets = socialTopic ? socialTopic.mockMarkets : [];
+
+    // Inject generated mocks only in the Social tab if enabled
+    if (showMockData && selectedSport && activeTab === 'Social') {
+        const generatedMarkets = generateMockMarkets(selectedSport, 6);
+        const generatedContests = generateMockContests(selectedSport, 2);
+        socialMarkets = [...socialMarkets, ...generatedMarkets];
+        socialContests = [...socialContests, ...generatedContests];
+    }
 
     return (
         <div className="min-h-screen bg-bg-base text-text-main">
@@ -666,6 +687,21 @@ export default function SportsDashboard() {
                 <p className="text-xs font-medium text-text-muted">
                     YADE © {new Date().getFullYear()} · ESPN Live Data Connected
                 </p>
+
+                {isAdmin(userAddress) && (
+                    <button
+                        onClick={async () => {
+                            const newValue = !showMockData;
+                            setShowMockData(newValue);
+                            if (userAddress) {
+                                await setGlobalMockStatus(newValue, userAddress);
+                            }
+                        }}
+                        className="mt-6 px-4 py-2 text-[10px] font-bold tracking-widest uppercase border border-border-subtle rounded hover:bg-bg-card transition-colors text-text-muted"
+                    >
+                        {showMockData ? 'Hide Global Mocks' : 'Show Global Mocks'}
+                    </button>
+                )}
             </footer>
         </div>
     );
