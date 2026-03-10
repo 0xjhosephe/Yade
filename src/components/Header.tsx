@@ -36,7 +36,7 @@ export default function Header({ userAddress, handleLogin, handleLogout }: Heade
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2 group">
                     <span className="text-2xl transition-transform group-hover:scale-110">🍊</span>
-                    <img src="/Yade.svg" alt="Yade Logo" className="h-6 w-auto" />
+                    <span className="text-xl tracking-tight text-contrast-2 font-logo">Yade</span>
                 </Link>
 
                 {/* Right side controls */}

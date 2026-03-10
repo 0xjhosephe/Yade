@@ -103,6 +103,7 @@
     "Segoe UI Emoji",
     "Segoe UI Symbol",
     "Noto Color Emoji";
+  --font-logo: "Outfit", sans-serif;
 }
 
 @utility icon-sm {
@@ -148,6 +149,11 @@
 
 @utility text-muted {
   color: var(--color-muted);
+}
+
+@utility font-logo {
+  font-family: var(--font-logo);
+  font-weight: 600;
 }
 
 /* Scrollbar */

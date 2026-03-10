@@ -1,15 +1,13 @@
+import { httpsCallable } from 'firebase/functions';
+import { functions } from './firebase';
 import { lunarCrushCategories } from '../mocks/topics';
 import type { LunarCrushCategory } from '../types';
 
-export async function fetchCategories(): Promise<LunarCrushCategory[]> {
+export async function fetchCategories(userAddress?: string | null): Promise<LunarCrushCategory[]> {
     try {
-        const response = await fetch('https://lunarcrush.com/api4/public/categories/list/v1');
-        if (!response.ok) {
-            console.warn('LunarCrush API fetch failed with status:', response.status);
-            return lunarCrushCategories;
-        }
-
-        const data = await response.json();
+        const getLunarCrushData = httpsCallable(functions, 'getLunarCrushData');
+        const response = await getLunarCrushData({ endpoint: '/categories/list/v1', userAddress });
+        const data = response.data as any;
 
         // Map the API response to our LunarCrushCategory interface.
         // We'll map the category name to a generic icon/group if not matched.

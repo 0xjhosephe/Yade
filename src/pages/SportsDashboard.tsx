@@ -70,11 +70,11 @@ export default function SportsDashboard() {
     // Fetch non-sport categories on mount
     useEffect(() => {
         const getCategories = async () => {
-            const data = await fetchCategories();
+            const data = await fetchCategories(userAddress);
             setCategories(data);
         };
         getCategories();
-    }, []);
+    }, [userAddress]);
 
     // ─── Header Strip Scrolling ───
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -661,7 +661,7 @@ export default function SportsDashboard() {
             <footer className="mt-24 border-t border-border-subtle bg-bg-surface/30 py-16 text-center">
                 <div className="flex items-center justify-center gap-3 mb-4 opacity-40 hover:opacity-100 transition-opacity duration-700 group cursor-default">
                     <span className="text-xl transition-transform group-hover:scale-125">🍊</span>
-                    <img src="/Yade.svg" alt="Yade Logo" className="h-6 w-auto" />
+                    <span className="text-lg tracking-tight text-contrast-2 font-logo">Yade</span>
                 </div>
                 <p className="text-xs font-medium text-text-muted">
                     YADE © {new Date().getFullYear()} · ESPN Live Data Connected
