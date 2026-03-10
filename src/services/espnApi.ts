@@ -4,6 +4,8 @@
  * Reference: https://github.com/pseudo-r/Public-ESPN-API
  */
 import type { ESPNEvent, ESPNNewsArticle, ESPNLeagueConfig } from '../types';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from './firebase';
 
 // ─── Base URLs ───
 const SITE_API = 'https://site.api.espn.com/apis/site/v2/sports';
@@ -203,14 +205,10 @@ export async function fetchUpcomingEvents(
 
     try {
         const url = `${SITE_API}/${sport}/${league}/scoreboard?dates=${dateRange}&limit=100`;
-        const response = await fetch(url);
+        const getEspnData = httpsCallable(functions, 'getEspnData');
+        const response = await getEspnData({ url });
 
-        if (!response.ok) {
-            console.warn(`ESPN API returned ${response.status} for ${sport}/${league}`);
-            return events;
-        }
-
-        const data = await response.json();
+        const data = response.data as any;
         const rawEvents = data.events || [];
 
         for (const rawEvent of rawEvents) {
@@ -239,11 +237,10 @@ export async function fetchEventSummary(
 ): Promise<{ status: string; homeScore: string; awayScore: string; winner: string | null } | null> {
     try {
         const url = `${SITE_API}/${sport}/${league}/summary?event=${eventId}`;
-        const response = await fetch(url);
+        const getEspnData = httpsCallable(functions, 'getEspnData');
+        const response = await getEspnData({ url });
 
-        if (!response.ok) return null;
-
-        const data = await response.json();
+        const data = response.data as any;
         const header = data.header;
         if (!header) return null;
 
@@ -292,14 +289,10 @@ export async function fetchSportsNews(
 ): Promise<ESPNNewsArticle[]> {
     try {
         const url = `${NOW_API}?leagues=${league}&limit=${limit}`;
-        const response = await fetch(url);
+        const getEspnData = httpsCallable(functions, 'getEspnData');
+        const response = await getEspnData({ url });
 
-        if (!response.ok) {
-            console.warn(`ESPN News API returned ${response.status}`);
-            return [];
-        }
-
-        const data = await response.json();
+        const data = response.data as any;
         const articles = data.headlines || data.articles || data.feed || [];
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,0 +1,38 @@
+{
+  "status": "success",
+  "result": [
+    {
+      "projectId": "orionartisanspace",
+      "projectNumber": "70338517357",
+      "displayName": "orionartisanspace",
+      "name": "projects/orionartisanspace",
+      "resources": {
+        "hostingSite": "orionartisanspace"
+      },
+      "state": "ACTIVE",
+      "etag": "1_b583af8c-27aa-4545-bd91-5b6bb227d458"
+    },
+    {
+      "projectId": "orionstudiospace",
+      "projectNumber": "757933968436",
+      "displayName": "orionstudiospace",
+      "name": "projects/orionstudiospace",
+      "resources": {
+        "hostingSite": "orionstudiospace"
+      },
+      "state": "ACTIVE",
+      "etag": "1_90c011d4-4c62-4556-bdfd-e79618c296f2"
+    },
+    {
+      "projectId": "yadeforecast",
+      "projectNumber": "861847931918",
+      "displayName": "yadeforecast",
+      "name": "projects/yadeforecast",
+      "resources": {
+        "hostingSite": "yadeforecast"
+      },
+      "state": "ACTIVE",
+      "etag": "1_870d3caa-0bfa-44fb-b1a5-60f13e1c90ea"
+    }
+  ]
+}

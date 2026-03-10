@@ -1,30 +1,16 @@
+import { httpsCallable } from 'firebase/functions';
+import { functions } from './firebase';
 import type { SeriesPoint, Creator, Post, Metric } from '../types';
 
-const API_KEY = import.meta.env.VITE_LUNAR_CRUSH_API_KEY;
-const BASE_URL = 'https://lunarcrush.com/api4/public';
-
 async function fetchWithAuth(endpoint: string) {
-    if (!API_KEY) {
-        console.warn('LunarCrush API key missing');
-        return null;
-    }
-
     try {
-        const response = await fetch(`${BASE_URL}${endpoint}`, {
-            headers: {
-                Authorization: `Bearer ${API_KEY}`,
-            },
-        });
+        const getLunarCrushData = httpsCallable(functions, 'getLunarCrushData');
+        const response = await getLunarCrushData({ endpoint });
 
-        if (!response.ok) {
-            console.error(`Status ${response.status} fetching ${endpoint}`);
-            return null;
-        }
-
-        const data = await response.json();
-        return data.data;
+        // Firebase callables return data in the `.data` property
+        return response.data as any;
     } catch (error) {
-        console.error(`Error fetching ${endpoint}:`, error);
+        console.error(`Error fetching ${endpoint} via Firebase Functions:`, error);
         return null;
     }
 }
