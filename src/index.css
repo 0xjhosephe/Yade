@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+:root {
+  /* Dark Theme (Default) */
+  --bg-base: #0b0b0b;
+  --bg-surface: #0b0b0b;
+  --bg-card: #121212;
+  --bg-card-hover: #181818;
+  --text-main: #f3f2f0;
+  --text-muted: #a3a3a3;
+  --border-subtle: #262626;
+  --accent: #f27a4e;
+  --contrast: #dbf03a;
+  --glass-bg: rgba(15, 15, 15, 0.6);
+  --scroll-thumb: #242424;
+  --text-inverted: var(--bg-base);
+}
+
+.light {
+  /* Hiro Explorer-inspired Light Theme */
+  --bg-base: #ffffff;
+  --bg-surface: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f3f5;
+  --text-main: #0a0a0b;
+  --text-muted: #4b5563;
+  --border-subtle: #e5e7eb;
+  --accent: #bea184;
+  --contrast: #bea184;
+  /* Warm grayish citrus (Laranja Lima) */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --scroll-thumb: #d1d5db;
+  --text-inverted: var(--bg-base);
+}
+
+@theme {
+  /* Colors - Base */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-text-main: var(--text-main);
+  --color-text-inverted: var(--text-inverted);
+
+  /* Colors - Neutral */
+  --color-gray-100: #f3f2f0;
+  --color-gray-200: #e5e5e5;
+  --color-gray-300: #d4d4d4;
+  --color-gray-400: #a3a3a3;
+  --color-gray-500: #737373;
+  --color-gray-600: #525252;
+  --color-gray-700: #404040;
+  --color-gray-800: #262626;
+  --color-gray-900: #171717;
+
+  --color-muted: var(--text-muted);
+  --color-border-subtle: var(--border-subtle);
+
+  /* Colors - Brand */
+  --color-accent: var(--accent);
+  --color-contrast-2: var(--contrast);
+
+  /* Colors - Semantic */
+  --color-yes: #a3c056;
+  /* Olive */
+  --color-no: #ea6e5f;
+  --color-lemon: #dbf03a;
+  /* Lemon */
+  --color-success: #a3c056;
+  /* Success is now Olive */
+  --color-warning: #dbf03a;
+  /* Warning is now Lemon */
+  --color-info: #3b82f6;
+  --color-fee: #a3a3a3;
+  /* Neutral tone for fees */
+
+  /* Effects */
+  --shadow-none: none;
+
+  /* Glassmorphism */
+  --glass-bg: var(--glass-bg);
+  --glass-blur: blur(12px);
+  --glass-border: 1px solid rgba(0, 0, 0, 0.05);
+
+  /* Radius */
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+
+  /* Typography */
+  --font-sans: "Geist",
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+@utility icon-sm {
+  font-size: 1.25rem;
+  font-variation-settings: 'OPSZ' 20, 'wght' 400, 'FILL' 0, 'GRAD' 0;
+}
+
+@utility icon-md {
+  font-size: 1.5rem;
+  font-variation-settings: 'OPSZ' 24, 'wght' 400, 'FILL' 0, 'GRAD' 0;
+}
+
+@utility icon-lg {
+  font-size: 2rem;
+  font-variation-settings: 'OPSZ' 40, 'wght' 400, 'FILL' 0, 'GRAD' 0;
+}
+
+@layer base {
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    vertical-align: middle;
+  }
+}
+
+@utility glass {
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+}
+
+@utility text-muted {
+  color: var(--color-muted);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 3px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg-base);
+}
+
+/* Custom utilities */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* For Dashboard odds progress bars */
+.progress-yes-20 {
+  background-color: rgb(163 192 86 / 0.2);
+  width: var(--opt-odds, 0%);
+}
+
+.progress-no-20 {
+  background-color: rgb(234 110 95 / 0.2);
+  width: var(--opt-odds, 0%);
+}
+
+.progress-accent-15 {
+  background-color: rgb(242 122 78 / 0.15);
+  width: var(--opt-odds, 0%);
+}
+
+.progress-yes-10 {
+  background-color: rgb(163 192 86 / 0.1);
+  width: var(--opt-odds, 0%);
+}
+
+.progress-no-10 {
+  background-color: rgb(234 110 95 / 0.1);
+  width: var(--opt-odds, 0%);
+}
+
+.progress-accent-5 {
+  background-color: rgb(242 122 78 / 0.05);
+  width: var(--opt-odds, 0%);
+}
+
+/* For stepper */
+.stepper-progress {
+  width: var(--stepper-width, 0%);
+}
