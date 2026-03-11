@@ -35,8 +35,7 @@ export default function Header({ userAddress, handleLogin, handleLogout }: Heade
             <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 py-3 sm:px-6">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-2 group">
-                    <span className="text-2xl transition-transform group-hover:scale-110">🍊</span>
-                    <span className="text-xl tracking-tight text-contrast-2 font-logo">Yade</span>
+                    <span className="text-3xl font-bold tracking-tight text-brand-orange">Yade</span>
                 </Link>
 
                 {/* Right side controls */}
@@ -76,9 +75,9 @@ export default function Header({ userAddress, handleLogin, handleLogout }: Heade
 
                     <Link
                         to="/create-contest"
-                        className="group flex h-9 items-center gap-1.5 rounded border border-border-subtle bg-bg-card/40 px-4 text-xs font-bold text-text-main transition hover:border-accent hover:bg-bg-card-hover"
+                        className="group flex h-9 items-center gap-1.5 rounded border border-border-subtle bg-bg-card/40 px-4 text-xs font-bold text-text-main transition hover:border-brand-lemon hover:bg-bg-card-hover"
                     >
-                        <Icon name="add_circle" className="icon-sm text-accent group-hover:scale-110 transition-transform" />
+                        <Icon name="add_circle" className="icon-sm text-brand-lemon group-hover:scale-110 transition-transform" />
                         <span className="hidden sm:inline">Create Contest</span>
                     </Link>
 
@@ -97,7 +96,7 @@ export default function Header({ userAddress, handleLogin, handleLogout }: Heade
                     ) : (
                         <button
                             onClick={handleLogin}
-                            className="flex h-9 items-center gap-1.5 rounded bg-accent px-4 text-xs font-bold text-black transition hover:brightness-110"
+                            className="flex h-9 items-center gap-1.5 rounded bg-brand-orange px-4 text-xs font-bold text-black transition hover:brightness-110"
                         >
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.5 12C2.5 17.2 6.8 21.5 12 21.5C17.2 21.5 21.5 17.2 21.5 12C21.5 6.8 17.2 2.5 12 2.5C6.8 2.5 2.5 6.8 2.5 12Z" fill="none" stroke="currentColor" strokeWidth="2" />

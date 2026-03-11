@@ -277,7 +277,7 @@ export default function SportsDashboard() {
             id: contest.id,
             question: contest.question,
             description: contest.description,
-            category: contest.category.toUpperCase(),
+            category: contest.category,
             status: contest.status === 'active' ? 'live' : 'closed',
             volume: contest.volume,
             closesAt: contest.expiresAt,
@@ -300,7 +300,7 @@ export default function SportsDashboard() {
         id: selectedContest.id,
         question: selectedContest.question,
         description: selectedContest.description,
-        category: selectedContest.category.toUpperCase(),
+        category: selectedContest.category,
         status: selectedContest.status === 'active' ? 'live' : 'closed',
         volume: selectedContest.volume,
         closesAt: selectedContest.expiresAt,
@@ -316,9 +316,18 @@ export default function SportsDashboard() {
         })),
     } : null;
 
-    // ─── Social Data ───
-    const mappedTopicId = selectedSport === 'formula 1' ? 'f1' : selectedSport === 'premier league' ? 'football' : selectedSport;
-    const socialTopic = topics.find(t => t.id === mappedTopicId || t.label.toLowerCase() === selectedSport?.toLowerCase());
+    // ─── Social Data Mapping ───
+    const currentUnifiedCategory = UNIFIED_SPORT_CATEGORIES.find(u => u.id === selectedSport);
+
+    // Find the best match in topics.ts for social content
+    // We prioritize checking lunarCategories of the unified group
+    const socialTopic = topics.find(t => {
+        if (!selectedSport) return false;
+        if (t.id === selectedSport) return true;
+        if (currentUnifiedCategory?.lunarCategories.includes(t.id)) return true;
+        if (t.label.toLowerCase() === selectedSport.toLowerCase()) return true;
+        return false;
+    });
 
     let socialContests = socialTopic ? socialTopic.mockContests : [];
     let socialMarkets = socialTopic ? socialTopic.mockMarkets : [];
@@ -568,7 +577,7 @@ export default function SportsDashboard() {
                                             <div
                                                 key={contest.id}
                                                 onClick={() => handleContestClick(contest)}
-                                                className="cursor-pointer transition-transform hover:scale-[1.005]"
+                                                className="cursor-pointer"
                                             >
                                                 <ContestCard
                                                     contest={contest}
@@ -602,7 +611,6 @@ export default function SportsDashboard() {
                                     <div className="flex flex-col gap-6 w-full">
                                         {socialContests.length > 0 && (
                                             <div>
-                                                <h3 className="text-sm font-bold text-text-main mb-3">LunarCrush Social Contests</h3>
                                                 <div className="grid gap-4 sm:grid-cols-2">
                                                     {socialContests.map(contest => (
                                                         <ContestCard
@@ -619,7 +627,6 @@ export default function SportsDashboard() {
 
                                         {socialMarkets.length > 0 && (
                                             <div>
-                                                <h3 className="text-sm font-bold text-text-main mb-3">Live Prediction Pools</h3>
                                                 <div className="grid gap-4 sm:grid-cols-2">
                                                     {socialMarkets.map(market => (
                                                         <BettingCard
@@ -681,7 +688,6 @@ export default function SportsDashboard() {
 
             <footer className="mt-24 border-t border-border-subtle bg-bg-surface/30 py-16 text-center">
                 <div className="flex items-center justify-center gap-3 mb-4 opacity-40 hover:opacity-100 transition-opacity duration-700 group cursor-default">
-                    <span className="text-xl transition-transform group-hover:scale-125">🍊</span>
                     <span className="text-lg tracking-tight text-contrast-2 font-logo">Yade</span>
                 </div>
                 <p className="text-xs font-medium text-text-muted">
@@ -697,7 +703,7 @@ export default function SportsDashboard() {
                                 await setGlobalMockStatus(newValue, userAddress);
                             }
                         }}
-                        className="mt-6 px-4 py-2 text-[10px] font-bold tracking-widest uppercase border border-border-subtle rounded hover:bg-bg-card transition-colors text-text-muted"
+                        className="mt-6 px-4 py-2 text-[10px] font-bold tracking-widest border border-border-subtle rounded hover:bg-bg-card transition-colors text-text-muted"
                     >
                         {showMockData ? 'Hide Global Mocks' : 'Show Global Mocks'}
                     </button>

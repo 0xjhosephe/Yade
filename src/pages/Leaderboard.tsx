@@ -7,18 +7,20 @@ const createMockLeaderboard = (categoryId: string) => {
     const seed = categoryId.length;
     return Array.from({ length: 15 }).map((_, i) => ({
         rank: i + 1,
-        address: `SP${1234 + i * seed}...${categoryId.slice(0, 4).toUpperCase()}`,
+        address: `SP${1234 + i * seed}...${categoryId.slice(0, 4)}`,
         wins: Math.max(1, 45 - i * 3 - (seed % 5)),
         winRate: (60 + Math.max(0, 35 - i * 2) - (seed % 10)).toFixed(1),
         totalProfit: `$${((15 - i) * (seed * 100 + 450)).toLocaleString()}`
     }));
 };
 
+import { UNIFIED_SPORT_CATEGORIES } from '../services/espnApi';
+
 import Header from '../components/Header';
 import { connect, disconnect, isConnected } from '@stacks/connect';
 
 export default function Leaderboard() {
-    const [selectedCategoryId, setSelectedCategoryId] = useState('f1');
+    const [selectedCategoryId, setSelectedCategoryId] = useState('basketball');
     const [userAddress, setUserAddress] = useState<string | null>(null);
 
     const handleLogin = async () => {
@@ -67,7 +69,23 @@ export default function Leaderboard() {
 
                 {/* Category Tabs */}
                 <div className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-none mask-fade-right">
-                    {topics.map(t => (
+                    {/* Unified Sports */}
+                    {UNIFIED_SPORT_CATEGORIES.map(t => (
+                        <button
+                            key={t.id}
+                            onClick={() => setSelectedCategoryId(t.id)}
+                            className={`flex items-center gap-2 whitespace-nowrap rounded-full border border-border-subtle px-4 py-1.5 text-xs font-bold transition ${selectedCategoryId === t.id
+                                ? 'bg-accent text-text-inverted border-accent'
+                                : 'bg-bg-card/40 text-text-muted hover:border-muted hover:text-text-main'
+                                }`}
+                        >
+                            <Icon name={t.icon} className="icon-sm" />
+                            <span className="whitespace-nowrap">{t.label}</span>
+                        </button>
+                    ))}
+
+                    {/* Non-Sport Topics */}
+                    {topics.filter(t => !UNIFIED_SPORT_CATEGORIES.some(u => u.id === t.id)).map(t => (
                         <button
                             key={t.id}
                             onClick={() => setSelectedCategoryId(t.id)}
@@ -89,10 +107,10 @@ export default function Leaderboard() {
                             <thead className="bg-bg-surface border-b border-border-subtle text-xs text-text-muted">
                                 <tr>
                                     <th className="px-6 py-4 font-bold">Rank</th>
-                                    <th className="px-6 py-4 font-bold">Bettor Address (Stacks)</th>
-                                    <th className="px-6 py-4 font-bold text-right">Contests Won</th>
-                                    <th className="px-6 py-4 font-bold text-right">Win Rate</th>
-                                    <th className="px-6 py-4 font-bold text-right">Total Profit</th>
+                                    <th className="px-6 py-4 font-bold">Bettor address (Stacks)</th>
+                                    <th className="px-6 py-4 font-bold text-right">Contests won</th>
+                                    <th className="px-6 py-4 font-bold text-right">Win rate</th>
+                                    <th className="px-6 py-4 font-bold text-right">Total profit</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-border-subtle/50">

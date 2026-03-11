@@ -48,7 +48,7 @@ export default function BetModal({ isOpen, onClose, market, selectedOptionLabel,
             <div className="absolute inset-0 bg-black/40" onClick={onClose} />
 
             <div
-                className="w-full max-w-[360px] rounded-[24px] border border-border-subtle bg-bg-card relative flex flex-col animate-in zoom-in-95 duration-200"
+                className="w-full max-w-[360px] rounded-[32px] border border-border-subtle bg-bg-card relative flex flex-col animate-in zoom-in-95 duration-200"
             >
 
                 {/* Header Section (Logo + Event) */}
@@ -126,7 +126,7 @@ export default function BetModal({ isOpen, onClose, market, selectedOptionLabel,
                         }
 
                         return (
-                            <div key={opt.label} className={`flex items-center justify-between gap-2 px-3 py-2 rounded-xl border transition-all ${isSelected ? borderClass : 'border-border-subtle opacity-50'}`}>
+                            <div key={opt.label} className={`flex items-center justify-between gap-2 px-3 py-2 rounded-lg border transition-all ${isSelected ? borderClass : 'border-border-subtle opacity-50'}`}>
                                 <span className={`text-sm font-black truncate flex-1 min-w-0 ${isSelected ? colorClass : 'text-text-muted'}`} title={opt.label}>
                                     {opt.label}
                                 </span>
@@ -139,7 +139,7 @@ export default function BetModal({ isOpen, onClose, market, selectedOptionLabel,
                 </div>
 
                 <div className="px-3.5 mb-3">
-                    <div className="bg-bg-surface border border-border-subtle rounded-xl p-3.5 focus-within:border-accent/50 transition-all">
+                    <div className="bg-bg-surface border border-border-subtle rounded-2xl p-3.5 focus-within:border-brand-lemon/50 transition-all">
                         <div className="flex items-center justify-between mb-0.5">
                             <span className="text-text-muted font-semibold text-[10px] tracking-tight">{crypto === 'USDC' ? 'Dollars' : crypto}</span>
                             <div className="flex flex-col items-end">

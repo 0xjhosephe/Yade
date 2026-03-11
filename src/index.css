@@ -1,36 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  /* Dark Theme (Default) */
-  --bg-base: #0b0b0b;
-  --bg-surface: #0b0b0b;
-  --bg-card: #121212;
-  --bg-card-hover: #181818;
+  /* Image-Derived Palette */
+  --brand-lemon: #ccdd8d;
+  /* Primary highlight from image */
+  --brand-olive: #111801;
+  /* Branding deep green from image */
+  --brand-orange: #f27a4e;
+  /* Brand Orange */
+  --brand-red: #ea6e5f;
+  /* Brand Red */
+
+  /* Dark Theme (Default) - Based on Reference Images */
+  --bg-base: #101010;
+  --bg-surface: #101010;
+  --bg-card: #1c1c1c;
+  --bg-card-hover: #242424;
   --text-main: #f3f2f0;
-  --text-muted: #a3a3a3;
-  --border-subtle: #262626;
-  --accent: #f27a4e;
-  --contrast: #dbf03a;
-  --glass-bg: rgba(15, 15, 15, 0.6);
-  --scroll-thumb: #242424;
+  /* Creamy typography */
+  --text-muted: #8a8a8a;
+  /* Refined muted tone */
+  --text-highlight: var(--brand-lemon);
+  --border-subtle: #2d2e2d;
+  --accent: var(--brand-lemon);
+  --contrast: var(--brand-orange);
+  --glass-bg: rgba(16, 16, 16, 0.6);
+  --scroll-thumb: #2d2e2d;
   --text-inverted: var(--bg-base);
+
+  /* Premium Interaction Tokens */
+  --effect-border-active: 1.5px solid var(--brand-lemon);
+  --transition-premium: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .light {
-  /* Hiro Explorer-inspired Light Theme */
-  --bg-base: #ffffff;
-  --bg-surface: #f8f9fa;
+  /* Hiro Explorer-inspired Light Theme Refined */
+  --bg-base: #fcfcf9;
+  --bg-surface: #f7f7f2;
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f3f5;
-  --text-main: #0a0a0b;
-  --text-muted: #4b5563;
-  --border-subtle: #e5e7eb;
-  --accent: #bea184;
-  --contrast: #bea184;
-  /* Warm grayish citrus (Laranja Lima) */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --scroll-thumb: #d1d5db;
-  --text-inverted: var(--bg-base);
+  --bg-card-hover: #f0f0e8;
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --border-subtle: #e8e8e0;
+  --accent: #9ab04a;
+  /* Deeper lemon for contrast on light */
+  --contrast: #f27a4e;
+  /* Brand Orange */
+  --glass-bg: rgba(252, 252, 249, 0.7);
+  --scroll-thumb: #e8e8e0;
+  --text-inverted: #fcfcf9;
 }
 
 @theme {
@@ -59,17 +77,16 @@
   /* Colors - Brand */
   --color-accent: var(--accent);
   --color-contrast-2: var(--contrast);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-red: var(--brand-red);
+  --color-brand-lemon: var(--brand-lemon);
 
   /* Colors - Semantic */
-  --color-yes: #a3c056;
-  /* Olive */
-  --color-no: #ea6e5f;
-  --color-lemon: #dbf03a;
-  /* Lemon */
-  --color-success: #a3c056;
-  /* Success is now Olive */
-  --color-warning: #dbf03a;
-  /* Warning is now Lemon */
+  --color-yes: var(--brand-lemon);
+  --color-no: var(--brand-red);
+  --color-lemon: var(--brand-lemon);
+  --color-success: var(--brand-lemon);
+  --color-warning: var(--brand-lemon);
   --color-info: #3b82f6;
   --color-fee: #a3a3a3;
   /* Neutral tone for fees */
@@ -83,8 +100,8 @@
   --glass-border: 1px solid rgba(0, 0, 0, 0.05);
 
   /* Radius */
-  --radius-xl: 24px;
-  --radius-lg: 16px;
+  --radius-xl: 32px;
+  --radius-lg: 20px;
   --radius-md: 12px;
 
   /* Typography */
@@ -104,6 +121,13 @@
     "Segoe UI Symbol",
     "Noto Color Emoji";
   --font-logo: "Outfit", sans-serif;
+
+  /* Animation */
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@utility transition-premium {
+  transition: all var(--transition-premium);
 }
 
 @utility icon-sm {

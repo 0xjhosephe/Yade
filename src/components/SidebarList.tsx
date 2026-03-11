@@ -11,9 +11,9 @@ interface SidebarListProps {
 export default function SidebarList({ title, markets, topicId }: SidebarListProps) {
     return (
         <div className="mb-8">
-            <h3 className="mb-4 text-[13px] font-semibold text-text-main flex items-center gap-2">
+            <h3 className="mb-4 text-[13px] font-bold text-text-main flex items-center gap-2">
                 {title}
-                <Icon name="chevron_right" className="text-accent !text-sm" />
+                <Icon name="chevron_right" className="text-brand-lemon !text-sm" />
             </h3>
 
             <div className="flex flex-col gap-1">
@@ -26,7 +26,7 @@ export default function SidebarList({ title, markets, topicId }: SidebarListProp
                         <Link
                             key={market.id}
                             to={`/market/${topicId}/${market.id}`}
-                            className="group flex items-start gap-3 p-2.5 transition rounded-xl hover:bg-bg-surface/50"
+                            className="group flex items-start gap-3 p-2.5 transition-all duration-300 rounded-xl hover:bg-bg-card-hover/40 hover:border-brand-lemon/10 border border-transparent"
                         >
                             <div className="flex flex-col items-center gap-1 min-w-[20px]">
                                 <span className="text-sm font-bold text-muted pt-0.5">{index + 1}</span>

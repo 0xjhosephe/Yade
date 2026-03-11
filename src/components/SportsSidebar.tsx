@@ -35,13 +35,13 @@ export default function SportsSidebar({
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                    <Icon name="sports" className="text-accent !text-base" />
+                    <Icon name="sports" className="text-brand-lemon !text-base" />
                     <h3 className="text-xs font-bold text-text-main">Sports</h3>
                 </div>
                 {selectedSport && (
                     <button
                         onClick={onBackToFeed}
-                        className="text-[10px] font-bold text-accent hover:underline"
+                        className="text-[10px] font-bold text-brand-lemon hover:underline"
                     >
                         ← Back
                     </button>
@@ -51,9 +51,9 @@ export default function SportsSidebar({
             {/* All (reset filter) */}
             <button
                 onClick={onBackToFeed}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-all ${!selectedSport
-                    ? 'bg-accent/10 border border-accent/30 text-accent'
-                    : 'text-text-muted hover:bg-bg-card-hover/50 hover:text-text-main'
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left transition-all duration-300 ${!selectedSport
+                    ? 'bg-brand-lemon/10 border border-brand-lemon/30 text-brand-lemon shadow-[0_0_15px_rgba(204,221,141,0.05)]'
+                    : 'text-text-muted hover:bg-bg-card-hover/50 hover:text-text-main border border-transparent hover:border-brand-lemon/10'
                     }`}
             >
                 <Icon name="public" className="!text-[16px]" />
@@ -70,9 +70,9 @@ export default function SportsSidebar({
                     <div key={cat.category}>
                         <button
                             onClick={() => onSelectSport(cat.category)}
-                            className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-left transition-all ${isSelected
-                                ? 'bg-accent/10 border border-accent/30 text-accent'
-                                : 'text-text-muted hover:bg-bg-card-hover/50 hover:text-text-main'
+                            className={`w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl text-left transition-all duration-300 ${isSelected
+                                ? 'bg-brand-lemon/10 border border-brand-lemon/30 text-brand-lemon'
+                                : 'text-text-muted hover:bg-bg-card-hover/50 hover:text-text-main border border-transparent hover:border-brand-lemon/10'
                                 }`}
                         >
                             <div className="flex items-center gap-2.5">

@@ -86,7 +86,7 @@ export default function MarketDetailView({
                     <Icon name="arrow_back" className="!text-sm" />
                 </button>
                 <div className="flex-1 min-w-0">
-                    <h2 className="text-lg font-black text-text-main truncate">{market.question}</h2>
+                    <h2 className="text-xl font-bold text-text-main truncate">{market.question}</h2>
                     {market.description && (
                         <p className="text-xs text-text-muted truncate">{market.description}</p>
                     )}
@@ -115,7 +115,7 @@ export default function MarketDetailView({
                     market.status === 'upcoming' ? 'bg-lemon/15 text-lemon' :
                         'bg-zinc-500/15 text-zinc-400'
                     }`}>
-                    {market.status === 'live' ? '● Live' : market.status === 'upcoming' ? 'Upcoming' : 'Closed'}
+                    {market.status === 'live' ? 'Live' : market.status === 'upcoming' ? 'Upcoming' : 'Closed'}
                 </span>
                 <span className="text-xs text-text-muted">
                     ${(market.volume / 1000000).toFixed(1)}M vol • {market.options.length} options
@@ -123,14 +123,14 @@ export default function MarketDetailView({
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-1 bg-bg-card rounded-xl p-1 border border-border-subtle">
+            <div className="flex gap-1 bg-bg-card rounded-2xl p-1 border border-border-subtle">
                 {(['chart', 'rules', 'activity'] as const).map(tab => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
-                        className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all capitalize ${activeTab === tab
-                            ? 'bg-bg-card-hover text-text-main shadow-sm'
-                            : 'text-text-muted hover:text-text-main'
+                        className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all duration-300 capitalize ${activeTab === tab
+                            ? 'bg-bg-card-hover text-text-main border border-brand-lemon/20'
+                            : 'text-text-muted hover:text-text-main hover:bg-bg-card-hover/50'
                             }`}
                     >
                         {tab === 'chart' ? 'Chart' : tab === 'rules' ? 'Rules' : 'Activity'}
@@ -140,7 +140,7 @@ export default function MarketDetailView({
 
             {/* Chart Tab */}
             {activeTab === 'chart' && (
-                <div className="rounded-[20px] border border-border-subtle bg-bg-card p-5">
+                <div className="rounded-[32px] border border-border-subtle bg-bg-card p-5">
                     <div className="min-h-[300px]">
                         <MarketChart market={market} />
                     </div>
@@ -149,7 +149,7 @@ export default function MarketDetailView({
 
             {/* Rules Tab */}
             {activeTab === 'rules' && (
-                <div className="rounded-[20px] border border-border-subtle bg-bg-card p-5">
+                <div className="rounded-[32px] border border-border-subtle bg-bg-card p-5">
                     <div className="flex items-center gap-2 mb-4">
                         <Icon name="calendar_today" className="text-accent !text-base" />
                         <h3 className="text-sm font-bold text-text-main">Timeline and Payout</h3>
@@ -190,7 +190,7 @@ export default function MarketDetailView({
 
             {/* Activity Tab */}
             {activeTab === 'activity' && (
-                <div className="rounded-[20px] border border-border-subtle bg-bg-card p-5">
+                <div className="rounded-[32px] border border-border-subtle bg-bg-card p-5">
                     <div className="flex items-center gap-2 mb-4">
                         <h3 className="text-sm font-bold text-text-main">Activity</h3>
                     </div>
@@ -215,7 +215,7 @@ export default function MarketDetailView({
             )}
 
             {/* Vote/Bet Options */}
-            <div className="rounded-[20px] border border-border-subtle bg-bg-card p-5">
+            <div className="rounded-[32px] border border-border-subtle bg-bg-card p-5">
                 <div className="flex items-center justify-between mb-3">
                     <span className="text-xs text-text-muted font-semibold">Chance</span>
                 </div>
@@ -241,7 +241,7 @@ export default function MarketDetailView({
                                 )}
                                 <span className="text-sm font-bold text-text-main">{opt.label}</span>
                                 <span className={`text-sm font-black ${isWinning ? 'text-yes' : 'text-text-muted'}`}>
-                                    {opt.odds}%
+                                    {Math.round(opt.odds)}%
                                 </span>
                             </div>
 
@@ -253,14 +253,14 @@ export default function MarketDetailView({
                                             className={`px-4 py-1 rounded-lg text-xs font-bold border transition-all ${isActive ? 'border-yes bg-yes/10 text-yes' : 'border-border-subtle text-yes hover:border-yes'
                                                 }`}
                                         >
-                                            Yes {opt.odds}¢
+                                            Yes {Math.round(opt.odds)}¢
                                         </button>
                                         <button
                                             onClick={() => onSelectOption(isActive ? null : opt.label)}
                                             className={`px-4 py-1 rounded-lg text-xs font-bold border transition-all ${isActive ? 'border-no bg-no/10 text-no' : 'border-border-subtle text-no hover:border-no'
                                                 }`}
                                         >
-                                            No {100 - opt.odds}¢
+                                            No {100 - Math.round(opt.odds)}¢
                                         </button>
                                     </>
                                 ) : (
@@ -282,7 +282,7 @@ export default function MarketDetailView({
 
             {/* ESPN News Section (Related to sport/league) */}
             {espnLeague && (loadingNews || news.length > 0) && (
-                <div className="rounded-[20px] border border-border-subtle bg-bg-card p-5">
+                <div className="rounded-[32px] border border-border-subtle bg-bg-card p-5">
                     <div className="flex items-center gap-2 mb-4">
                         <Icon name="newspaper" className="text-accent !text-base" />
                         <h3 className="text-sm font-bold text-text-main">Live News</h3>

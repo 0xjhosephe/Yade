@@ -46,7 +46,7 @@ export default function Dashboard() {
         return null;
     });
 
-    const [showMockData, setShowMockData] = useState(false);
+    const [showMockData, setShowMockData] = useState(true);
 
     useEffect(() => {
         const fetchGlobalStatus = async () => {
@@ -274,7 +274,7 @@ export default function Dashboard() {
         mockMarkets: [{
             id: `loading-${selectedTopicId}`,
             question: `Fetching live intelligence for ${matchedCat?.title || selectedTopicId}...`,
-            category: 'ANALYZING',
+            category: 'Analyzing',
             description: 'Analyzing recent social interactions and creator sentiment over the LunarCrush network.',
             status: 'upcoming',
             volume: 0,
@@ -296,21 +296,18 @@ export default function Dashboard() {
 
     const displayedMarkets = useMemo(() => {
         const rawMarkets = liveMarkets || liveDataCache[query]?.markets || topic.mockMarkets;
-        if (showMockData && selectedTopicId) {
-            const cleanRaw = rawMarkets.filter(m => !m.id.startsWith('mock-'));
-            return [...cleanRaw, ...generateMockMarkets(selectedTopicId, 8)];
-        }
-        return rawMarkets;
-    }, [liveMarkets, liveDataCache, query, topic.mockMarkets, showMockData, selectedTopicId]);
+        // Ensure we combine live data with a set of mock markets for a full dashboard experience
+        const cleanRaw = rawMarkets.filter(m => !m.id.startsWith('mock-'));
+        const mocks = generateMockMarkets(selectedTopicId || 'trending', 8);
+        return [...cleanRaw, ...mocks];
+    }, [liveMarkets, liveDataCache, query, topic.mockMarkets, selectedTopicId]);
 
     const displayedContests = useMemo(() => {
         const rawContests = liveContests || liveDataCache[query]?.contests || topic.mockContests;
-        if (showMockData && selectedTopicId) {
-            const cleanRaw = rawContests.filter(c => !c.id.startsWith('mock-'));
-            return [...cleanRaw, ...generateMockContests(selectedTopicId, 4)];
-        }
-        return rawContests;
-    }, [liveContests, liveDataCache, query, topic.mockContests, showMockData, selectedTopicId]);
+        const cleanRaw = rawContests.filter(c => !c.id.startsWith('mock-'));
+        const mocks = generateMockContests(selectedTopicId || 'trending', 4);
+        return [...cleanRaw, ...mocks];
+    }, [liveContests, liveDataCache, query, topic.mockContests, selectedTopicId]);
 
     const activeMarkets = displayedMarkets;
     const activeContests = displayedContests;
@@ -333,21 +330,6 @@ export default function Dashboard() {
 
     const otherMarkets = activeMarkets.slice(1);
 
-    const isSelected = globalSelection?.id === featuredMarket.id;
-    let featuredThemeColor = 'bg-accent';
-    if (isSelected) {
-        const isYesNo = featuredMarket.options.length === 2 &&
-            featuredMarket.options.every((o: MarketOption) => o.label === 'Yes' || o.label === 'No');
-
-        if (isYesNo) {
-            featuredThemeColor = globalSelection?.option === 'Yes' ? 'bg-yes' : 'bg-no';
-        } else {
-            const opt = featuredMarket.options.find((o: MarketOption) => o.label === globalSelection?.option);
-            if (opt && opt.odds === Math.max(...featuredMarket.options.map((o: MarketOption) => o.odds))) {
-                featuredThemeColor = 'bg-yes';
-            }
-        }
-    }
 
     return (
         <div className="min-h-screen bg-bg-base text-text-main">
@@ -460,7 +442,7 @@ export default function Dashboard() {
                     {/* Left Column */}
                     <div className="flex flex-col gap-6">
                         <div
-                            className="rounded-[24px] border border-border-subtle bg-bg-card p-6 md:p-8 relative overflow-hidden group/featured transition-all duration-700 ease-in-out"
+                            className="rounded-[32px] border border-border-subtle bg-bg-card p-5 relative overflow-hidden group/featured transition-all duration-700 ease-in-out"
                             onMouseEnter={() => selectedTopicId === 'trending' && setIsHovered(true)}
                             onMouseLeave={() => selectedTopicId === 'trending' && setIsHovered(false)}
                         >
@@ -486,16 +468,16 @@ export default function Dashboard() {
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-2">
                                     <Icon name={featuredTopicContext.icon} className="text-accent" />
-                                    <h3 className="text-xs font-semibold text-text-muted">{featuredTopicContext.label} Featured prediction</h3>
+                                    <h3 className="text-xs font-semibold text-text-muted">{featuredTopicContext.label} Featured Prediction</h3>
                                 </div>
-                                <span className="rounded bg-yes/15 px-1.5 py-0.5 text-[10px] font-semibold text-yes animate-pulse">
+                                <span className="rounded bg-brand-lemon/15 px-1.5 py-0.5 text-[10px] font-semibold text-brand-lemon animate-pulse">
                                     Live
                                 </span>
                             </div>
 
                             <div className="grid grid-cols-1 lg:grid-cols-[48fr_52fr] gap-6 md:gap-8 transition-opacity duration-500 w-full" key={featuredMarket.id}>
                                 <div className="flex flex-col gap-4">
-                                    <h2 className="text-2xl font-black text-text-main tracking-tight flex items-center gap-2 min-h-[64px]">{featuredMarket.question}</h2>
+                                    <h2 className="text-2xl font-bold text-text-main tracking-tight flex items-center gap-2 min-h-[64px]">{featuredMarket.question}</h2>
 
                                     <div className="flex flex-col gap-2 mb-2">
                                         {featuredMarket.options.map((opt: MarketOption) => {
@@ -529,14 +511,14 @@ export default function Dashboard() {
                                                             setGlobalSelection(isSelected ? null : { id: featuredMarket.id, option: opt.label });
                                                         }
                                                     }}
-                                                    className={`group cursor-pointer relative w-full overflow-hidden rounded-md border px-3 py-2 min-h-[44px] text-left transition ${isSelected
+                                                    className={`group cursor-pointer relative w-full overflow-hidden rounded-lg border px-3 py-2 min-h-[44px] text-left transition-all duration-300 ${isSelected
                                                         ? `${optionBorderClass} bg-bg-card`
-                                                        : `border-border-subtle bg-bg-card/40 ${hoverBorderClass} hover:bg-bg-card/60`
+                                                        : `border-border-subtle bg-bg-card/40 ${hoverBorderClass} hover:bg-bg-card/60 hover:border-brand-lemon/30`
                                                         }`}
                                                 >
                                                     <div
                                                         ref={(el) => { if (el) el.style.width = `${opt.odds}%`; }}
-                                                        className={`absolute inset-y-0 left-0 transition-all duration-500 ${isSelected
+                                                        className={`absolute inset-y-0 left-0 transition-all duration-700 ${isSelected
                                                             ? isYesNo ? (opt.label === 'Yes' ? 'bg-yes/20' : 'bg-no/20') : (isWinning ? 'bg-yes/20' : 'bg-accent/15')
                                                             : isYesNo ? (opt.label === 'Yes' ? 'bg-yes/10' : 'bg-no/10') : (isWinning ? 'bg-yes/10' : 'bg-accent/5')
                                                             }`}
@@ -610,7 +592,7 @@ export default function Dashboard() {
                                                         setGlobalSelection(null);
                                                     }
                                                 }}
-                                                className={`px-4 py-1.5 rounded-md text-xs font-bold text-black transition active:scale-95 ${featuredThemeColor}`}
+                                                className={`px-4 py-1.5 rounded-md text-xs font-bold text-black transition active:scale-95 bg-brand-orange`}
                                             >
                                                 Place bet
                                             </button>
@@ -664,17 +646,26 @@ export default function Dashboard() {
                             )}
                         </div>
 
+                        <div className="grid gap-6 sm:grid-cols-2">
+                            {otherMarkets.map((market) => (
+                                <BettingCard
+                                    key={market.id}
+                                    market={market}
+                                    topicId={topic.id}
+                                    selectedOption={globalSelection?.id === market.id ? globalSelection?.option : null}
+                                    onSelectOption={(optionLabel) => setGlobalSelection(optionLabel ? { id: market.id, option: optionLabel } : null)}
+                                    onBet={(m: BetMarket, o: string) => {
+                                        setSelectedBetOption({ market: m, optionLabel: o });
+                                        setIsBetModalOpen(true);
+                                        setGlobalSelection(null);
+                                    }}
+                                />
+                            ))}
+                        </div>
+
                         {activeContests.length > 0 && (
-                            <div className="mt-6">
-                                <div className="mb-4 flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <h3 className="text-lg font-bold text-text-main">Social Contests</h3>
-                                        <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-bold text-accent">
-                                            LunarCrush Data
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="grid gap-5 sm:grid-cols-2">
+                            <div className="mt-4 flex flex-col gap-5">
+                                <div className="grid gap-6 sm:grid-cols-2">
                                     {[...customContests, ...activeContests].map((contest) => (
                                         <ContestCard
                                             key={contest.id}
@@ -695,7 +686,7 @@ export default function Dashboard() {
                                                         id: c.id,
                                                         question: c.question,
                                                         description: c.description,
-                                                        category: c.category.toUpperCase(),
+                                                        category: c.category,
                                                         status: c.status === 'active' ? 'live' : 'closed',
                                                         volume: c.volume,
                                                         closesAt: c.expiresAt,
@@ -719,7 +710,7 @@ export default function Dashboard() {
 
                         <div className="mt-10">
                             <div className="mb-6 flex items-center justify-between">
-                                <h3 className="text-lg font-black text-text-main tracking-tight mb-1 flex items-center gap-2">
+                                <h3 className="text-xl font-bold text-text-main tracking-tight mb-1 flex items-center gap-2">
                                     Active Pools
                                 </h3>
                             </div>
@@ -764,7 +755,6 @@ export default function Dashboard() {
 
             <footer className="mt-24 border-t border-border-subtle bg-bg-surface/30 py-16 text-center">
                 <div className="flex items-center justify-center gap-3 mb-4 opacity-40 hover:opacity-100 transition-opacity duration-700 group cursor-default">
-                    <span className="text-xl transition-transform group-hover:scale-125">🍊</span>
                     <span className="text-lg tracking-tight text-contrast-2 font-logo">Yade</span>
                 </div>
                 <p className="text-xs font-medium text-text-muted">
@@ -780,7 +770,7 @@ export default function Dashboard() {
                                 await setGlobalMockStatus(newValue, userAddress);
                             }
                         }}
-                        className="mt-6 px-4 py-2 text-[10px] font-bold tracking-widest uppercase border border-border-subtle rounded hover:bg-bg-card transition-colors text-text-muted"
+                        className="mt-6 px-4 py-2 text-[10px] font-bold tracking-widest border border-border-subtle rounded hover:bg-bg-card transition-colors text-text-muted"
                     >
                         {showMockData ? 'Hide Global Mocks' : 'Show Global Mocks'}
                     </button>

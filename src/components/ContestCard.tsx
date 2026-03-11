@@ -109,7 +109,7 @@ export default function ContestCard({ contest, selectedOption, onSelectOption, o
     }, [contest.contenders]);
 
     return (
-        <div className="rounded-[24px] border border-border-subtle bg-bg-card overflow-hidden transition hover:border-muted-dark hover:-translate-y-[1px]">
+        <div className="rounded-[32px] border border-border-subtle bg-bg-card overflow-hidden transition-all duration-300 hover:border-brand-lemon/30">
             <div className="p-6">
                 {/* Header: Type badge + Status + Countdown */}
                 <div className="flex items-center justify-between gap-2 mb-1">
@@ -145,7 +145,7 @@ export default function ContestCard({ contest, selectedOption, onSelectOption, o
                 </div>
 
                 {/* Question */}
-                <h4 className="mt-4 text-sm font-bold leading-snug text-text-main line-clamp-2 min-h-[44px]">
+                <h4 className="mt-4 text-base font-bold leading-snug text-text-main line-clamp-2 min-h-[48px]">
                     {contest.question}
                 </h4>
 
@@ -212,11 +212,11 @@ export default function ContestCard({ contest, selectedOption, onSelectOption, o
                                 key={contender.label}
                                 onClick={() => isActive && onSelectOption ? onSelectOption(isSelected ? null : contender.label) : undefined}
                                 disabled={!isActive}
-                                className={`group relative overflow-hidden w-full text-left rounded-md border p-2.5 transition-all min-h-[44px] ${isSelected
+                                className={`group relative overflow-hidden w-full text-left rounded-lg border p-2.5 transition-all duration-300 min-h-[44px] ${isSelected
                                     ? `${colors.border} bg-bg-card`
                                     : isWinner
                                         ? 'border-yes/40 bg-yes/5'
-                                        : `border-border-subtle bg-bg-card/40 ${colors.hoverBorder} hover:bg-bg-card/60`
+                                        : `border-border-subtle bg-bg-card/40 ${colors.hoverBorder} hover:bg-bg-card/60 hover:border-brand-lemon/30`
                                     } ${!isActive ? 'cursor-default' : 'cursor-pointer'}`}
                             >
                                 {/* Progress bar background */}
@@ -282,7 +282,7 @@ export default function ContestCard({ contest, selectedOption, onSelectOption, o
                         {!isActive ? (
                             <Link
                                 to={`/market/${contest.category.toLowerCase()}/${contest.id}`}
-                                className="flex items-center gap-1.5 rounded-md border border-border-subtle bg-bg-card-hover/50 px-3 py-1.5 text-[11px] font-bold text-text-main transition hover:border-accent/50 hover:bg-bg-card-hover/80"
+                                className="flex items-center gap-1.5 rounded-lg border border-border-subtle bg-bg-card-hover/50 px-3 py-1.5 text-[11px] font-bold text-text-main transition hover:border-brand-lemon/50 hover:bg-bg-card-hover/80"
                             >
                                 View
                                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -296,7 +296,7 @@ export default function ContestCard({ contest, selectedOption, onSelectOption, o
                                         const rect = e.currentTarget.getBoundingClientRect();
                                         onBet?.(contest, selectedOption, rect);
                                     }}
-                                    className={`rounded-md px-4 py-1.5 text-xs font-bold text-black bg-accent transition active:scale-95 hover:brightness-110`}
+                                    className={`rounded-lg px-4 py-1.5 text-xs font-bold text-black bg-brand-orange transition active:scale-95 hover:brightness-110`}
                                 >
                                     Place bet
                                 </button>

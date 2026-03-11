@@ -154,8 +154,8 @@ export function generateDynamicBets(topicName: string, creators: Creator[], post
             status: 'active',
             winner: null,
             contenders: [
-                { label: c1.name, subLabel: c1.handle, link: `https://lunarcrush.com/creators/${c1.handle.replace('@', '')}`, icon: c1.avatar || '⚡', iconType: c1.avatar ? 'image' : 'emoji', currentValue: c1.interactions24h, bets: Math.floor(c1.interactions24h / 50), paysOut: 1.45 },
-                { label: c2.name, subLabel: c2.handle, link: `https://lunarcrush.com/creators/${c2.handle.replace('@', '')}`, icon: c2.avatar || '🔥', iconType: c2.avatar ? 'image' : 'emoji', currentValue: c2.interactions24h, bets: Math.floor(c2.interactions24h / 50), paysOut: 1.72 },
+                { label: c1.name, subLabel: c1.handle, link: `https://lunarcrush.com/creators/${c1.handle.replace('@', '')}`, icon: c1.avatar || '', iconType: c1.avatar ? 'image' : 'emoji', currentValue: c1.interactions24h, bets: Math.floor(c1.interactions24h / 50), paysOut: 1.45 },
+                { label: c2.name, subLabel: c2.handle, link: `https://lunarcrush.com/creators/${c2.handle.replace('@', '')}`, icon: c2.avatar || '', iconType: c2.avatar ? 'image' : 'emoji', currentValue: c2.interactions24h, bets: Math.floor(c2.interactions24h / 50), paysOut: 1.72 },
             ],
             curatorHandle: '@LunarOracle',
             createdAt: now - 12 * hour,
@@ -175,8 +175,8 @@ export function generateDynamicBets(topicName: string, creators: Creator[], post
             trend24h: Math.floor(Math.random() * 20) - 10,
             closesAt: now + 6 * hour,
             options: [
-                { label: c1.name, subLabel: c1.handle, link: `https://lunarcrush.com/creators/${c1.handle.replace('@', '')}`, odds: 55, paysOut: 1.81, votes: Math.floor(c1.interactions24h / 100), icon: c1.avatar || '⚡', iconType: c1.avatar ? 'image' : 'emoji' },
-                { label: c2.name, subLabel: c2.handle, link: `https://lunarcrush.com/creators/${c2.handle.replace('@', '')}`, odds: 45, paysOut: 2.22, votes: Math.floor(c2.interactions24h / 100), icon: c2.avatar || '🔥', iconType: c2.avatar ? 'image' : 'emoji' },
+                { label: c1.name, subLabel: c1.handle, link: `https://lunarcrush.com/creators/${c1.handle.replace('@', '')}`, odds: 55, paysOut: 1.81, votes: Math.floor(c1.interactions24h / 100), icon: c1.avatar || '', iconType: c1.avatar ? 'image' : 'emoji' },
+                { label: c2.name, subLabel: c2.handle, link: `https://lunarcrush.com/creators/${c2.handle.replace('@', '')}`, odds: 45, paysOut: 2.22, votes: Math.floor(c2.interactions24h / 100), icon: c2.avatar || '', iconType: c2.avatar ? 'image' : 'emoji' },
             ],
         });
     }
@@ -215,8 +215,8 @@ export function generateDynamicBets(topicName: string, creators: Creator[], post
                 status: 'active',
                 winner: null,
                 contenders: [
-                    { label: topPost.author, subLabel: topPost.authorHandle, link: `https://lunarcrush.com/creators/${topPost.authorHandle.replace('@', '')}`, icon: '📰', iconType: 'emoji', currentValue: topPost.likes + topPost.replies + topPost.shares, bets: 4500, paysOut: 1.5 },
-                    { label: secondPost.author, subLabel: secondPost.authorHandle, link: `https://lunarcrush.com/creators/${secondPost.authorHandle.replace('@', '')}`, icon: '📢', iconType: 'emoji', currentValue: secondPost.likes + secondPost.replies + secondPost.shares, bets: 3200, paysOut: 1.9 },
+                    { label: topPost.author, subLabel: topPost.authorHandle, link: `https://lunarcrush.com/creators/${topPost.authorHandle.replace('@', '')}`, icon: '', iconType: 'emoji', currentValue: topPost.likes + topPost.replies + topPost.shares, bets: 4500, paysOut: 1.5 },
+                    { label: secondPost.author, subLabel: secondPost.authorHandle, link: `https://lunarcrush.com/creators/${secondPost.authorHandle.replace('@', '')}`, icon: '', iconType: 'emoji', currentValue: secondPost.likes + secondPost.replies + secondPost.shares, bets: 3200, paysOut: 1.9 },
                 ],
                 curatorHandle: '@NewsJunkie',
                 createdAt: now - 5 * hour,

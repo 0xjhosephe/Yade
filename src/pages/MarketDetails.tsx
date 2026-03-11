@@ -51,7 +51,7 @@ export default function MarketDetails() {
     // Provide a fallback topic for purely dynamic categories lacking mock skeletons
     const fallbackTopic: Topic = {
         id: topicId || 'fallback',
-        label: topicId ? topicId.toUpperCase() : 'Market',
+        label: topicId ? topicId.charAt(0).toUpperCase() + topicId.slice(1) : 'Market',
         icon: '📊',
         mockMetrics: [],
         mockSeries: [],
@@ -60,7 +60,7 @@ export default function MarketDetails() {
         mockMarkets: [{
             id: `loading-${topicId}`,
             question: `Fetching details...`,
-            category: 'ANALYZING',
+            category: 'Analyzing',
             status: 'upcoming',
             volume: 0,
             closesAt: initialDateForRender + 86400000,

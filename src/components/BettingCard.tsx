@@ -78,7 +78,7 @@ export default function BettingCard({ market, topicId, hideDetailsLink, selected
     // selectedBorderClass is intended for future usage or can be removed if handled inline
 
     return (
-        <div className="rounded-[24px] border border-border-subtle bg-bg-card p-6 transition hover:border-muted-dark hover:-translate-y-[1px]">
+        <div className="rounded-[32px] border border-border-subtle bg-bg-card p-6 transition-all duration-300 hover:border-brand-lemon/30">
             {/* Header row - Standardized height for alignment */}
             <div className="flex items-start justify-between gap-2 h-6">
                 <div className="min-w-0 flex-1 flex items-center">
@@ -94,7 +94,7 @@ export default function BettingCard({ market, topicId, hideDetailsLink, selected
                 </span>
             </div>
 
-            <h4 className="mt-4 text-sm font-bold leading-snug text-text-main line-clamp-2 min-h-[44px]">
+            <h4 className="mt-4 text-base font-bold leading-snug text-text-main line-clamp-2 min-h-[48px]">
                 {market.question}
             </h4>
 
@@ -133,9 +133,9 @@ export default function BettingCard({ market, topicId, hideDetailsLink, selected
                                     if (onSelectOption) onSelectOption(isSelected ? null : opt.label);
                                 }
                             }}
-                            className={`group cursor-pointer relative w-full overflow-hidden rounded-md border px-3 py-2 text-left transition min-h-[44px] ${isSelected
+                            className={`group cursor-pointer relative w-full overflow-hidden rounded-lg border px-3 py-2 text-left transition-all duration-300 min-h-[44px] ${isSelected
                                 ? `${optionBorderClass} bg-bg-card`
-                                : `border-border-subtle bg-bg-card/40 ${hoverBorderClass} hover:bg-bg-card/60`
+                                : `border-border-subtle bg-bg-card/40 ${hoverBorderClass} hover:bg-bg-card/60 hover:border-brand-lemon/30`
                                 }`}
                         >
                             {/* Odds bar background */}
@@ -195,14 +195,14 @@ export default function BettingCard({ market, topicId, hideDetailsLink, selected
 
                                     {/* Odds pill */}
                                     <span
-                                        className={`min-w-[52px] rounded-md px-2.5 py-1 text-center text-sm font-bold transition ${isSelected
+                                        className={`min-w-[52px] rounded-lg px-2.5 py-1 text-center text-sm font-bold transition ${isSelected
                                             ? isYesNo
                                                 ? opt.label === 'Yes'
                                                     ? 'bg-yes text-black'
                                                     : 'bg-no text-black'
                                                 : isWinning
                                                     ? 'bg-yes text-black'
-                                                    : 'bg-accent text-black'
+                                                    : 'bg-brand-orange text-black'
                                             : isYesNo
                                                 ? opt.label === 'Yes'
                                                     ? 'bg-yes/15 text-yes'
@@ -212,7 +212,7 @@ export default function BettingCard({ market, topicId, hideDetailsLink, selected
                                                     : 'bg-border-subtle text-text-main'
                                             }`}
                                     >
-                                        {opt.odds}%
+                                        {Math.round(opt.odds)}%
                                     </span>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@ export default function BettingCard({ market, topicId, hideDetailsLink, selected
                             <Link
                                 id={`view-details-${market.id}`}
                                 to={`/market/${topicId}/${market.id}`}
-                                className="rounded-md border border-border-subtle bg-bg-card-hover/50 px-4 py-2 text-xs font-bold text-text-main transition hover:border-muted hover:bg-bg-card-hover"
+                                className="rounded-lg border border-border-subtle bg-bg-card-hover/50 px-4 py-2 text-xs font-bold text-text-main transition hover:border-brand-lemon/50 hover:bg-bg-card-hover"
                             >
                                 View Social Details
                             </Link>

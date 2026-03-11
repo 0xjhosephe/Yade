@@ -41,7 +41,7 @@ const f1Posts: Post[] = [
 
 const f1Markets: BetMarket[] = [
     {
-        id: 'f1-m1', question: 'Who will win the Bahrain GP?', category: 'RACE WINNER',
+        id: 'f1-m1', question: 'Who will win the Bahrain GP?', category: 'Race Winner',
         description: 'The season opener at the Bahrain International Circuit sets the stage for the 2025 championship. Verstappen looks to continue his dominance, while Ferrari and McLaren bring significant upgrades aiming to challenge Red Bull.',
         status: 'live', statusDetail: 'Lap 42 of 57', volume: 2_340_000, trend24h: 12,
         closesAt: now + 2 * hour,
@@ -51,7 +51,7 @@ const f1Markets: BetMarket[] = [
         ],
     },
     {
-        id: 'f1-m2', question: 'Will there be a Safety Car?', category: 'RACE EVENT',
+        id: 'f1-m2', question: 'Will there be a Safety Car?', category: 'Race Event',
         status: 'live', statusDetail: 'Lap 42 of 57', volume: 890_000, trend24h: 4,
         closesAt: now + 2 * hour,
         options: [
@@ -60,7 +60,7 @@ const f1Markets: BetMarket[] = [
         ],
     },
     {
-        id: 'f1-m3', question: 'Constructors Champion 2025?', category: 'SEASON',
+        id: 'f1-m3', question: 'Constructors Champion 2025?', category: 'Season',
         status: 'upcoming', volume: 5_100_000, trend24h: -2,
         closesAt: now + 90 * 24 * hour,
         options: [
@@ -69,7 +69,7 @@ const f1Markets: BetMarket[] = [
         ],
     },
     {
-        id: 'f1-m4', question: 'Will Verstappen get pole position at Jeddah?', category: 'QUALIFYING',
+        id: 'f1-m4', question: 'Will Verstappen get pole position at Jeddah?', category: 'Qualifying',
         status: 'upcoming', volume: 1_200_000, trend24h: 8,
         closesAt: now + 7 * 24 * hour,
         options: [
@@ -78,7 +78,7 @@ const f1Markets: BetMarket[] = [
         ],
     },
     {
-        id: 'f1-m5', question: 'McLaren vs Mercedes – More points in Round 3?', category: 'HEAD TO HEAD',
+        id: 'f1-m5', question: 'McLaren vs Mercedes – More points in Round 3?', category: 'Head to Head',
         status: 'upcoming', volume: 780_000, trend24h: -5,
         closesAt: now + 14 * 24 * hour,
         options: [
@@ -91,14 +91,14 @@ const f1Markets: BetMarket[] = [
 const f1Contests: Contest[] = [
     {
         id: 'f1-c1', betType: 'race',
-        question: 'Who reaches 1M social interactions first?',
-        description: 'A race between Verstappen and Leclerc fan bases to generate 1 million social interactions. Verified by LunarCrush real-time social tracking.',
-        category: 'formula 1', metricSource: 'topic', metric: 'interactions_24h', metricLabel: 'Social Interactions',
-        threshold: 1_000_000, thresholdLabel: '1M interactions',
+        question: 'Social Interaction Sprint: Verstappen vs Leclerc',
+        description: 'Which driver will be the first to reach 1 million high-engagement social interactions? Tracked in real-time via LunarCrush sentiment metrics.',
+        category: 'formula 1', metricSource: 'topic', metric: 'interactions_24h', metricLabel: 'Global Interactions',
+        threshold: 1_000_000, thresholdLabel: '1M Milestone',
         status: 'active', winner: null,
         contenders: [
-            { label: 'Max Verstappen', icon: '🟡', currentValue: 723_400, bets: 14_200, paysOut: 1.45 },
-            { label: 'Charles Leclerc', icon: '🔴', currentValue: 618_200, bets: 11_800, paysOut: 1.72 },
+            { label: 'Max Verstappen', icon: '', currentValue: 723_400, bets: 14_200, paysOut: 1.45 },
+            { label: 'Charles Leclerc', icon: '', currentValue: 618_200, bets: 11_800, paysOut: 1.72 },
         ],
         curatorHandle: '@f1_insider',
         createdAt: Date.now() - 14 * hour, expiresAt: Date.now() + 10 * hour,
@@ -106,13 +106,13 @@ const f1Contests: Contest[] = [
     },
     {
         id: 'f1-c2', betType: 'comparison',
-        question: 'Who will have higher sentiment after Bahrain GP?',
-        description: 'Comparing social sentiment between Red Bull and Ferrari fans after the race. Data from LunarCrush sentiment analysis.',
+        question: 'Social Sentiment Dominance: Red Bull vs Ferrari',
+        description: 'Predict which team will maintain the highest overall social sentiment score following the Bahrain GP. Data aggregated from global social pulses.',
         category: 'formula 1', metricSource: 'topic', metric: 'sentiment', metricLabel: 'Social Sentiment',
         status: 'active', winner: null,
         contenders: [
-            { label: 'Red Bull Racing', icon: '🐂', currentValue: 74, bets: 8_400, paysOut: 1.55 },
-            { label: 'Scuderia Ferrari', icon: '🐎', currentValue: 68, bets: 9_100, paysOut: 1.38 },
+            { label: 'Red Bull Racing', icon: '', currentValue: 74, bets: 8_400, paysOut: 1.55 },
+            { label: 'Scuderia Ferrari', icon: '', currentValue: 68, bets: 9_100, paysOut: 1.38 },
         ],
         curatorHandle: '@pitwall_data',
         createdAt: Date.now() - 16 * hour, expiresAt: Date.now() + 8 * hour,
@@ -139,13 +139,13 @@ const nbaCreators: Creator[] = [
 const nbaPosts: Post[] = [
     { id: '1', network: 'x', author: 'NBA Central', authorHandle: '@nba_guru', text: 'LeBron James drops 42 points in double OT thriller against the Celtics! At 41 years old, he continues to defy Father Time. This man is not human.', likes: 45200, replies: 8900, shares: 12300, sentiment: 0.92, createdAt: now - 1 * hour, url: '#' },
     { id: '2', network: 'reddit', author: 'HoopAnalytics', authorHandle: 'u/HoopAnalytics', text: 'Advanced stats breakdown: Curry\'s off-ball movement creates 3.2 more open threes per game than any other player. The gravity effect is real.', likes: 12400, replies: 1560, shares: 780, sentiment: 0.78, createdAt: now - 4 * hour, url: '#' },
-    { id: '3', network: 'x', author: 'Laker Nation', authorHandle: '@lakernation', text: 'BREAKING: Anthony Davis returns from injury with a monster performance – 28 pts, 15 reb, 4 blocks. The Brow is BACK and the West should be scared.', likes: 23800, replies: 4500, shares: 5600, sentiment: 0.85, createdAt: now - 6 * hour, url: '#' },
+    { id: '3', network: 'x', author: 'Laker Nation', authorHandle: '@lakernation', text: 'Breaking: Anthony Davis returns from injury with a monster performance – 28 pts, 15 reb, 4 blocks. The Brow is back and the West should be scared.', likes: 23800, replies: 4500, shares: 5600, sentiment: 0.85, createdAt: now - 6 * hour, url: '#' },
     { id: '4', network: 'youtube', author: 'HoopCentral', authorHandle: '@hoopcentral', text: 'Film study: How the Celtics\' switching defense is revolutionizing NBA strategy. Mazulla\'s system is the blueprint every team is trying to copy.', likes: 18900, replies: 2300, shares: 3400, sentiment: 0.74, createdAt: now - 10 * hour, url: '#' },
 ];
 
 const nbaMarkets: BetMarket[] = [
     {
-        id: 'nba-m1', question: 'Lakers vs Celtics – Who wins tonight?', category: 'GAME',
+        id: 'nba-m1', question: 'Lakers vs Celtics – Who wins tonight?', category: 'Game',
         description: 'The greatest rivalry in basketball resumes at TD Garden. Both teams are fighting for the top spot in their respective conferences, with LeBron James and Jayson Tatum expected to duel in a highly anticipated matchup.',
         status: 'live', statusDetail: '4th Quarter · 3:42', volume: 4_500_000, trend24h: 18,
         closesAt: now + 1 * hour,
@@ -155,7 +155,7 @@ const nbaMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nba-m2', question: 'Will LeBron score 30+ points?', category: 'PLAYER PROP',
+        id: 'nba-m2', question: 'Will LeBron score 30+ points?', category: 'Player Prop',
         status: 'live', statusDetail: '28pts so far', volume: 1_800_000, trend24h: 15,
         closesAt: now + 1 * hour,
         options: [
@@ -164,7 +164,7 @@ const nbaMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nba-m3', question: 'Warriors vs Nuggets – Who wins?', category: 'GAME',
+        id: 'nba-m3', question: 'Warriors vs Nuggets – Who wins?', category: 'Game',
         status: 'upcoming', volume: 3_200_000, trend24h: 3,
         closesAt: now + 5 * hour,
         options: [
@@ -173,7 +173,7 @@ const nbaMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nba-m4', question: 'NBA MVP 2025-26?', category: 'SEASON AWARD',
+        id: 'nba-m4', question: 'NBA MVP 2025-26?', category: 'Season Award',
         status: 'upcoming', volume: 8_900_000, trend24h: -4,
         closesAt: now + 60 * 24 * hour,
         options: [
@@ -182,7 +182,7 @@ const nbaMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nba-m5', question: 'Will the Celtics repeat as champions?', category: 'SEASON',
+        id: 'nba-m5', question: 'Will the Celtics repeat as champions?', category: 'Season',
         status: 'upcoming', volume: 6_700_000, trend24h: 7,
         closesAt: now + 90 * 24 * hour,
         options: [
@@ -195,14 +195,14 @@ const nbaMarkets: BetMarket[] = [
 const nbaContests: Contest[] = [
     {
         id: 'nba-c1', betType: 'race',
-        question: 'Who reaches 1M interactions first?',
-        description: 'Lakers vs Celtics: the biggest rivalry in basketball extends to social media. Which fanbase hits 1 million interactions first?',
-        category: 'nba', metricSource: 'topic', metric: 'interactions_24h', metricLabel: 'Social Interactions',
-        threshold: 1_000_000, thresholdLabel: '1M interactions',
+        question: 'Billionaire Interaction Race: Lakers vs Celtics',
+        description: 'The historic rivalry moves to the digital arena. Which franchise will be the first to secure 1 million community interactions this week?',
+        category: 'nba', metricSource: 'topic', metric: 'interactions_24h', metricLabel: 'Community Interactions',
+        threshold: 1_000_000, thresholdLabel: '1M Milestone',
         status: 'active', winner: null,
         contenders: [
-            { label: 'Los Angeles Lakers', icon: '💜', currentValue: 812_000, bets: 22_400, paysOut: 1.30 },
-            { label: 'Boston Celtics', icon: '☘️', currentValue: 745_600, bets: 19_800, paysOut: 1.52 },
+            { label: 'Los Angeles Lakers', icon: '', currentValue: 812_000, bets: 22_400, paysOut: 1.30 },
+            { label: 'Boston Celtics', icon: '', currentValue: 745_600, bets: 19_800, paysOut: 1.52 },
         ],
         curatorHandle: '@nba_guru',
         createdAt: Date.now() - 18 * hour, expiresAt: Date.now() + 6 * hour,
@@ -216,8 +216,8 @@ const nbaContests: Contest[] = [
         threshold: 500_000, thresholdLabel: '500K interactions',
         status: 'finished', winner: 'Yes',
         contenders: [
-            { label: 'Yes', icon: '✅', currentValue: 500_000, bets: 18_300, paysOut: 1.40 },
-            { label: 'No', icon: '❌', currentValue: 500_000, bets: 15_600, paysOut: 1.58 },
+            { label: 'Yes', icon: '', currentValue: 500_000, bets: 18_300, paysOut: 1.40 },
+            { label: 'No', icon: '', currentValue: 500_000, bets: 15_600, paysOut: 1.58 },
         ],
         curatorHandle: '@hoopcentral',
         createdAt: Date.now() - 22 * hour, expiresAt: Date.now() + 2 * hour,
@@ -242,7 +242,7 @@ const nflCreators: Creator[] = [
 ];
 
 const nflPosts: Post[] = [
-    { id: '1', network: 'x', author: 'NFL Insider', authorHandle: '@nfl_insider', text: 'BREAKING: Patrick Mahomes throws 5 TDs in a dominant display as the Chiefs clinch the #1 seed in the AFC. Dynasty mode: ACTIVATED.', likes: 67800, replies: 12400, shares: 18900, sentiment: 0.88, createdAt: now - 3 * hour, url: '#' },
+    { id: '1', network: 'x', author: 'NFL Insider', authorHandle: '@nfl_insider', text: 'Breaking: Patrick Mahomes throws 5 TDs in a dominant display as the Chiefs clinch the #1 seed in the AFC. Dynasty mode: Activated.', likes: 67800, replies: 12400, shares: 18900, sentiment: 0.88, createdAt: now - 3 * hour, url: '#' },
     { id: '2', network: 'reddit', author: 'NFLFilmStudy', authorHandle: 'u/NFLFilmStudy', text: 'Deep dive into the 49ers\' new zone-run scheme. Shanahan has completely reinvented their ground game. The numbers are absolutely insane.', likes: 15600, replies: 2100, shares: 980, sentiment: 0.76, createdAt: now - 7 * hour, url: '#' },
     { id: '3', network: 'x', author: 'Eagles Nation', authorHandle: '@eagles_nation', text: 'Saquon Barkley rushes for 180 yards and 2 TDs in his Eagles debut. Best free agent signing of the decade? The NFC East is on notice.', likes: 34500, replies: 6700, shares: 8900, sentiment: 0.91, createdAt: now - 9 * hour, url: '#' },
     { id: '4', network: 'youtube', author: 'NFL Analytics', authorHandle: '@nfl_analytics', text: 'Why the dual-threat QB is becoming extinct in 2025. The data shows pocket passers are making a massive comeback. Full statistical breakdown inside.', likes: 22100, replies: 3800, shares: 4500, sentiment: 0.65, createdAt: now - 14 * hour, url: '#' },
@@ -250,7 +250,7 @@ const nflPosts: Post[] = [
 
 const nflMarkets: BetMarket[] = [
     {
-        id: 'nfl-m1', question: 'Chiefs vs 49ers – Who wins Sunday?', category: 'GAME',
+        id: 'nfl-m1', question: 'Chiefs vs 49ers – Who wins Sunday?', category: 'Game',
         description: 'A Super Super Bowl rematch with massive playoff implications. Patrick Mahomes and the dominant Chiefs offense face off against Kyle Shanahan\'s versatile scheme and a suffocating 49ers defense at Arrowhead.',
         status: 'live', statusDetail: '3rd Quarter · 8:15', volume: 7_200_000, trend24h: 22,
         closesAt: now + 2 * hour,
@@ -260,7 +260,7 @@ const nflMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nfl-m2', question: 'Will Mahomes throw 3+ TDs?', category: 'PLAYER PROP',
+        id: 'nfl-m2', question: 'Will Mahomes throw 3+ TDs?', category: 'Player Prop',
         status: 'live', statusDetail: '2 TDs so far', volume: 2_100_000, trend24h: 14,
         closesAt: now + 2 * hour,
         options: [
@@ -269,7 +269,7 @@ const nflMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nfl-m3', question: 'Eagles vs Cowboys – Who wins?', category: 'GAME',
+        id: 'nfl-m3', question: 'Eagles vs Cowboys – Who wins?', category: 'Game',
         status: 'upcoming', volume: 5_400_000, trend24h: -1,
         closesAt: now + 8 * hour,
         options: [
@@ -278,7 +278,7 @@ const nflMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nfl-m4', question: 'Super Bowl LX Champion?', category: 'SEASON',
+        id: 'nfl-m4', question: 'Super Bowl LX Champion?', category: 'Season',
         status: 'upcoming', volume: 12_500_000, trend24h: 5,
         closesAt: now + 120 * 24 * hour,
         options: [
@@ -287,7 +287,7 @@ const nflMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'nfl-m5', question: 'Will there be a defensive TD in Chiefs game?', category: 'GAME EVENT',
+        id: 'nfl-m5', question: 'Will there be a defensive TD in Chiefs game?', category: 'Game Event',
         status: 'live', statusDetail: '3rd Quarter', volume: 950_000, trend24h: 2,
         closesAt: now + 2 * hour,
         options: [
@@ -300,13 +300,13 @@ const nflMarkets: BetMarket[] = [
 const nflContests: Contest[] = [
     {
         id: 'nfl-c1', betType: 'comparison',
-        question: 'Chiefs vs 49ers – Who will have more social dominance?',
-        description: 'Comparing social dominance between Chiefs and 49ers fanbases over the next 24 hours.',
-        category: 'nfl', metricSource: 'topic', metric: 'social_dominance', metricLabel: 'Social Dominance',
+        question: 'Social Dominance Index: Chiefs vs 49ers',
+        description: 'Predict which Super Bowl contender will command the highest share of social voice (Social Dominance) throughout the next 24-hour window.',
+        category: 'nfl', metricSource: 'topic', metric: 'social_dominance', metricLabel: 'Share of Voice',
         status: 'active', winner: null,
         contenders: [
-            { label: 'Kansas City Chiefs', icon: '🏹', currentValue: 4.2, bets: 31_200, paysOut: 1.35 },
-            { label: 'San Francisco 49ers', icon: '⛏️', currentValue: 3.8, bets: 28_500, paysOut: 1.50 },
+            { label: 'Kansas City Chiefs', icon: '', currentValue: 4.2, bets: 31_200, paysOut: 1.35 },
+            { label: 'San Francisco 49ers', icon: '', currentValue: 3.8, bets: 28_500, paysOut: 1.50 },
         ],
         curatorHandle: '@nfl_insider',
         createdAt: Date.now() - 12 * hour, expiresAt: Date.now() + 12 * hour,
@@ -319,9 +319,9 @@ const nflContests: Contest[] = [
         category: 'nfl', metricSource: 'topic', metric: 'topic_rank', metricLabel: 'Topic Rank',
         status: 'active', winner: null,
         contenders: [
-            { label: 'Kansas City Chiefs', icon: '🏹', currentValue: 2, bets: 18_400, paysOut: 1.80 },
-            { label: 'Philadelphia Eagles', icon: '🦅', currentValue: 5, bets: 14_200, paysOut: 2.40 },
-            { label: 'Dallas Cowboys', icon: '⭐', currentValue: 8, bets: 11_800, paysOut: 3.20 },
+            { label: 'Kansas City Chiefs', icon: '', currentValue: 2, bets: 18_400, paysOut: 1.80 },
+            { label: 'Philadelphia Eagles', icon: '', currentValue: 5, bets: 14_200, paysOut: 2.40 },
+            { label: 'Dallas Cowboys', icon: '', currentValue: 8, bets: 11_800, paysOut: 3.20 },
         ],
         curatorHandle: '@nfl_analytics',
         createdAt: Date.now() - 6 * hour, expiresAt: Date.now() + 18 * hour,
@@ -346,7 +346,7 @@ const footballCreators: Creator[] = [
 ];
 
 const footballPosts: Post[] = [
-    { id: '1', network: 'x', author: 'Football Daily', authorHandle: '@football_daily', text: 'WHAT A GOAL! Vinícius Jr scores an incredible bicycle kick in the 93rd minute to seal El Clásico for Real Madrid! The Bernabéu is SHAKING.', likes: 89400, replies: 18200, shares: 34500, sentiment: 0.95, createdAt: now - 1 * hour, url: '#' },
+    { id: '1', network: 'x', author: 'Football Daily', authorHandle: '@football_daily', text: 'What a goal! Vinícius Jr scores an incredible bicycle kick in the 93rd minute to seal El Clásico for Real Madrid! The Bernabéu is shaking.', likes: 89400, replies: 18200, shares: 34500, sentiment: 0.95, createdAt: now - 1 * hour, url: '#' },
     { id: '2', network: 'reddit', author: 'TacticsBoard', authorHandle: 'u/TacticsBoard', text: 'Tactical analysis: How Arsenal\'s inverted fullback system has transformed their ball progression. Arteta is creating something special at the Emirates.', likes: 24600, replies: 3400, shares: 1800, sentiment: 0.82, createdAt: now - 4 * hour, url: '#' },
     { id: '3', network: 'x', author: 'Barça Universal', authorHandle: '@barca_universal', text: 'Pedri completes 94% of his passes in the first half vs Real Madrid. His vision and composure under pressure at 22 is absolutely world class.', likes: 42300, replies: 7800, shares: 11200, sentiment: 0.87, createdAt: now - 6 * hour, url: '#' },
     { id: '4', network: 'youtube', author: 'PL Insider', authorHandle: '@pl_insider', text: 'Why the Premier League is the most competitive league in 2025. Four teams separated by 3 points at the top. Full breakdown of the title race.', likes: 31200, replies: 4500, shares: 6700, sentiment: 0.79, createdAt: now - 11 * hour, url: '#' },
@@ -354,7 +354,7 @@ const footballPosts: Post[] = [
 
 const footballMarkets: BetMarket[] = [
     {
-        id: 'fb-m1', question: 'Real Madrid vs Barcelona – El Clásico winner?', category: 'MATCH',
+        id: 'fb-m1', question: 'Real Madrid vs Barcelona – El Clásico winner?', category: 'Match',
         description: 'The biggest match in world football. Real Madrid hosts Barcelona at the Santiago Bernabéu with the La Liga title race hanging in the balance. Expect high drama, world-class talent, and intense tactical battles.',
         status: 'live', statusDetail: '78\' · 2-1', volume: 9_800_000, trend24h: 31,
         closesAt: now + 30 * 60 * 1000,
@@ -364,7 +364,7 @@ const footballMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'fb-m2', question: 'Will there be a red card in El Clásico?', category: 'MATCH EVENT',
+        id: 'fb-m2', question: 'Will there be a red card in El Clásico?', category: 'Match Event',
         status: 'live', statusDetail: '78\' played', volume: 1_200_000, trend24h: -3,
         closesAt: now + 30 * 60 * 1000,
         options: [
@@ -373,7 +373,7 @@ const footballMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'fb-m3', question: 'Arsenal vs Man City – Premier League?', category: 'MATCH',
+        id: 'fb-m3', question: 'Arsenal vs Man City – Premier League?', category: 'Match',
         status: 'upcoming', volume: 6_400_000, trend24h: 11,
         closesAt: now + 3 * 24 * hour,
         options: [
@@ -382,7 +382,7 @@ const footballMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'fb-m4', question: 'Premier League Champion 2025-26?', category: 'SEASON',
+        id: 'fb-m4', question: 'Premier League Champion 2025-26?', category: 'Season',
         status: 'upcoming', volume: 14_200_000, trend24h: 6,
         closesAt: now + 120 * 24 * hour,
         options: [
@@ -391,7 +391,7 @@ const footballMarkets: BetMarket[] = [
         ],
     },
     {
-        id: 'fb-m5', question: 'Champions League – Will Real Madrid reach the final?', category: 'TOURNAMENT',
+        id: 'fb-m5', question: 'Champions League – Will Real Madrid reach the final?', category: 'Tournament',
         status: 'upcoming', volume: 4_800_000, trend24h: 9,
         closesAt: now + 60 * 24 * hour,
         options: [
@@ -404,14 +404,14 @@ const footballMarkets: BetMarket[] = [
 const footballContests: Contest[] = [
     {
         id: 'fb-c1', betType: 'race',
-        question: 'Who reaches 1.5M interactions first?',
-        description: 'El Clásico rivalry extends to social media! Real Madrid vs Barcelona – which fanbase will generate 1.5 million interactions first?',
-        category: 'champions league', metricSource: 'topic', metric: 'interactions_24h', metricLabel: 'Social Interactions',
-        threshold: 1_500_000, thresholdLabel: '1.5M interactions',
+        question: 'Digital Supremacy Sprint: Real Madrid vs Barcelona',
+        description: 'The El Clásico of social media. Which club will be the first to record 1.5 million interactions across the LunarCrush tracked ecosystem?',
+        category: 'champions league', metricSource: 'topic', metric: 'interactions_24h', metricLabel: 'Ecosystem Interactions',
+        threshold: 1_500_000, thresholdLabel: '1.5M Milestone',
         status: 'active', winner: null,
         contenders: [
-            { label: 'Real Madrid', icon: '⚪', currentValue: 1_120_000, bets: 28_400, paysOut: 1.42 },
-            { label: 'FC Barcelona', icon: '🔵', currentValue: 1_050_000, bets: 25_800, paysOut: 1.55 },
+            { label: 'Real Madrid', icon: '', currentValue: 1_120_000, bets: 28_400, paysOut: 1.42 },
+            { label: 'FC Barcelona', icon: '', currentValue: 1_050_000, bets: 25_800, paysOut: 1.55 },
         ],
         curatorHandle: '@football_daily',
         createdAt: Date.now() - 15 * hour, expiresAt: Date.now() + 9 * hour,
@@ -425,8 +425,8 @@ const footballContests: Contest[] = [
         threshold: 100_000, thresholdLabel: '100K contributors',
         status: 'expired', winner: null,
         contenders: [
-            { label: 'Yes', icon: '✅', currentValue: 87_400, bets: 12_100, paysOut: 1.60 },
-            { label: 'No', icon: '❌', currentValue: 87_400, bets: 10_800, paysOut: 1.75 },
+            { label: 'Yes', icon: '', currentValue: 87_400, bets: 12_100, paysOut: 1.60 },
+            { label: 'No', icon: '', currentValue: 87_400, bets: 10_800, paysOut: 1.75 },
         ],
         curatorHandle: '@pl_insider',
         createdAt: Date.now() - 24 * hour, expiresAt: Date.now() - 1 * 60 * 1000,
