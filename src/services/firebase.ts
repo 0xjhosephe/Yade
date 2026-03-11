@@ -5,7 +5,7 @@ import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAmSjcBFtyi_TEQuN3tXMHIyqJz139qzk8",
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
     authDomain: "yadeforecast.firebaseapp.com",
     projectId: "yadeforecast",
     storageBucket: "yadeforecast.firebasestorage.app",
